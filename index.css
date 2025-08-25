@@ -63,15 +63,18 @@ body.light {
   margin: 20px auto;
   max-width: 70vw;
   max-height: 80vh;
-  background-color: blueviolet;
+
+  /* background-color: blueviolet; */
 }
 .timerWrapper {
   /* display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center; */
-  width: clamp(10%, 35%, 30vw);
-  background-color: pink;
+  width: clamp(10%, 35%, 30vw); 
+
+  /* background-color: pink; */
+
   /* position: absolute;
   top: 50%;
   left: 50%;
@@ -115,7 +118,7 @@ body.light {
   transition: all 0.5s ease-in-out;
 }
 .workTimer {
-  background-color: darkred;
+  /* background-color: darkred; */
 }
 .relaxTimer {
   background-color: green;
