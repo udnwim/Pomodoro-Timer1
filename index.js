@@ -134,6 +134,15 @@ workTimer.forEach((timer, index) => {
 })
 
 // editable timer
+const breakTimeLabel = document.querySelector('.breakTimeLabel')
+const breakTimeInput = document.getElementById('breaktime')
+breakTimeInput.addEventListener('change', (e) => {
+  const time = breakTimeInput.value
+  const min = time[0] + time[1]
+  const sec = time[2] + time[3]
+  timerRecord[2] = min
+  timerRecord[3] = sec
+})
 workTimer.forEach((timer, index) => {
   timer.addEventListener('click', () => {
     timer.contentEditable = 'true'
