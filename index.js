@@ -247,16 +247,16 @@ switchContainer.addEventListener('click', () => {
   console.log('clicked')
   if (isDarkMode) {
     themeToggle.style.transform = "translateX(0px)"
-    switchContainer.style.backgroundColor = '#341948'
     body.classList.replace('dark', 'light')
+    switchContainer.classList.replace('dark', 'light')
     timers.forEach((timer) => {
       timer.classList.replace('dark', 'light')
     })
     isDarkMode = false
   } else {
     themeToggle.style.transform = "translateX(20px)"
-    switchContainer.style.backgroundColor = '#9388A2'
     body.classList.replace('light', 'dark')
+    switchContainer.classList.replace('light', 'dark')
     timers.forEach((timer) => {
       timer.classList.replace('light', 'dark')
     })

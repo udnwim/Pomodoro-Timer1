@@ -2,50 +2,57 @@
   --deep-purple: #170B3B;
   --light-purple: #9388A2;
   --purple: #341948;
+  --dark-green: #253900;
+  --yellow: #FCEF91;
+  --orange: #FB9E3A;
+  --deeporange: #E6521F;
+  --tomato: #EA2F14;
 }
-
+/* https://colorhunt.co/palette/fcef91fb9e3ae6521fea2f14 */
+/* tomato color platte */
 body {
   position: relative;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   transition: background-color .3s ease-in-out;
-  background-color: var(--light-purple);
+  /* background-color: var(--light-purple); */
 }
 body.dark {
   background-color: var(--purple);
   color: white;
 }
 body.light {
-  background-color: var(--light-purple);
-  color:black;
+  background-color: var(--yellow);
+  color: #000;
+  /* color: var(--dark-green); */
 }
 .switchWrapper {
   margin: 10px;
   padding: 0;
-  /* position: absolute; */
-  /* top: 0; */
-  /* right: 0; */
+  position: absolute;
+  top: 0;
+  right: 0;
 
-  /* height: 25px; */
-  /* width: 50px; */
+  height: 25px;
+  width: 50px;
   border-radius: 30px;
-  background-color: var(--purple);
+  border: 1px solid gray;
   cursor: pointer;
 }
 .switchWrapper.dark {
-  background-color: var(--light-purple);
+  background-color: var(--yellow);
 }
 .switchWrapper.light {
-  background-color: var(--purple);
+  background-color: var(--tomato);
 }
 .switchWrapper .slider {
   position: absolute;
-  top: -2.5px; left: 0;
-  width: 27px;
+  top: -4px; left: 0;
+  width: 29px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  border: 2px solid black;
+  border: 2px solid gray;
   background-color: #fff;
   transition: all 0.2s ease-in-out;
 }
@@ -58,34 +65,24 @@ body.light {
 .mainArea {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   margin: 20px auto;
   max-width: 70vw;
-  max-height: 80vh;
+  height: 80vh;
 
   /* background-color: blueviolet; */
 }
 .timerWrapper {
   /* display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center; */
-  width: clamp(10%, 35%, 30vw); 
-
-  /* background-color: pink; */
-
-  /* position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
 }
 .quoteContainer {
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  /* padding:0 40px; */
+  /* align-items: center; */
+  margin: 20px 0;
   /* position: relative; */
 
   font-size: 20px;
@@ -109,28 +106,27 @@ body.light {
   justify-content: center;
   align-items: center;
   margin: 20px 0;
-  /* padding: 0 20px; */
+  padding: 20px 10px;
 
-  width: 100%;
-  height: 100%;
+  width: 200px; 
   font-size: 50px;
+  border: 2px solid gray;
 
   transition: all 0.5s ease-in-out;
 }
 .workTimer {
-  /* background-color: darkred; */
+  background-color: var(--orange);
 }
 .relaxTimer {
   background-color: green;
 }
 .workTimer.dark,
 .relaxTimer.dark {
-  border: 2px solid var(--light-purple);
+  /* border: 2px solid var(--gray); */
   border-radius: 10px;
 }
 .workTimer.light,
 .relaxTimer.light {
-  border: 2px solid var(--purple);
   border-radius: 10px;
 }
 /* @media (min-width: 768px) {
@@ -168,7 +164,6 @@ button {
   max-width: 110px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  border: 1px solid pink;
 }
 .resetBtn {
   max-width: 60px;
