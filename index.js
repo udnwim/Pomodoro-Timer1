@@ -142,6 +142,7 @@ breakTimeInput.addEventListener('change', (e) => {
   const sec = time[2] + time[3]
   timerRecord[2] = min
   timerRecord[3] = sec
+  breakTimeLabel.textContent = `Break time: ${min}:${sec}`
 })
 workTimer.forEach((timer, index) => {
   timer.addEventListener('click', () => {
