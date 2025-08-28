@@ -118,7 +118,7 @@ body.light {
   background-color: var(--orange);
 }
 .relaxTimer {
-  background-color: green;
+  background-color: var(--dark-green);
 }
 .workTimer.dark,
 .relaxTimer.dark {
@@ -156,16 +156,14 @@ body.light {
   /* width: 300px; */
 }
 button {
+  margin-bottom: 20px;
+  width: 110px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
   cursor: pointer;
   font-size: large;
 }
-.main {
-  margin-bottom: 20px;
-  max-width: 110px;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-}
 .resetBtn {
-  max-width: 60px;
-  max-height: 30px;
+  width: 60px;
+  height: 30px;
 }

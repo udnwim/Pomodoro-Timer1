@@ -51,12 +51,18 @@ function tick(btn, index) {
       clearInterval(timerID)
       isPause = true
       btn.textContent = 'STOP'
-      if (timerW.style.display === 'flex') {
-        quote.textContent = "test"
+      // when time is up, if workTimer is displaying, do the following
+      const displayW = getComputedStyle(timerW).display
+      if (displayW === 'flex') {
+        console.log('timerW is displaying')
+        // switchTimerVisibility()
+        guide.textContent = "Good work! Let's stop and take a break!"
       } else {
-        quote.textContent = "Good work! Let's stop and take a break!"
+        console.log('timerR is displaying')
+        guide.textContent = "Time is up! Let's get productive!"
       }
-      author.textContent = ''
+      // if (timerR.style.display === 'flex') {
+      // }
       const toFlash = document.querySelector(`#c${index + 1}`)
       flashID = setInterval(() => {
         toFlash.style.opacity = (toFlash.style.opacity === "1") ? "0" : "1" 
@@ -66,11 +72,15 @@ function tick(btn, index) {
 }
 
 //index = of the selected start/reset buttons; (index + 1) locates the id of the target element(#c1, #c2, #r1, #r2...)
-function reset(index) {
+//switchBoolean: true/false; decide if switching the current displaying timer
+function reset(index, switchBoolean) {
   if (timerID) clearInterval(timerID)
   if (flashID) {
     document.querySelector(`#c${index + 1}`).style.opacity = '1'
     clearInterval(flashID)
+  }
+  if (switchBoolean === true) {
+    switchTimerVisibility()
   }
   
   modifyHTML(`#s${index + 1}`, 'START')
@@ -112,7 +122,7 @@ function getQuote() {
   .catch(err => console.error(err))
 }
 
-getQuote()
+// getQuote()
 // quoteContainer.addEventListener('click', () => getQuote())
 
 // two timer: default set as 45:00, 15:00. workTimer gets [45, 00, 15, 00]
@@ -188,34 +198,40 @@ let isPause = true
 let timerID, flashID
 
 // when the button is hit, and the timer is not running(isPause=true), get the current display number and start counting down; otherwise reverse the flag and stop the counter
+const guide = document.querySelector('.guide span')
+const timerW = document.querySelector('.workTimer')
+const timerR = document.querySelector('.relaxTimer')
 const timeToRelax = new Audio('./lib/ambient-piano-music-1.wav')
+
+//when the time is up and the stop button is hit, check which timer is displaying and switch visibility
+function switchTimerVisibility() {
+  const displayW = getComputedStyle(timerW).display
+  if (displayW === 'flex') {
+    timerW.style.display = 'none'
+    timerR.style.display = 'flex'
+    console.log("switched to relax timer")
+  } else {
+    timerW.style.display = 'flex'
+    timerR.style.display = 'none'
+    console.log("switched to work timer")
+  }
+}
+
 mainBtns.forEach((btn, index) => {
   btn.addEventListener('click', () => {
     //click effect
     btnEffect(btn)
     
     if (btn.textContent === 'STOP') {
-      reset(index, 'START')
-      quote.textContent = "Time is up! Let's do some work!"
+      reset(index, false)
       
       //when the time is up and the stop button is hit, check which timer is displaying and switch visibility
-      const timerW = document.querySelector('.workTimer')
-      const timerR = document.querySelector('.relaxTimer')
-      const displayW = getComputedStyle(timerW).display
-      if (displayW === 'flex') {
-        timerW.style.display = 'none'
-        timerR.style.display = 'flex'
+      switchTimerVisibility()
+      //automatically start the relaxTimer
+      // if (getComputedStyle(timerR).display === 'flex') {
+      //   tick(document.querySelector('#s2'), 1)
+      // }
 
-        //automatically start the relaxTimer
-        tick(document.querySelector('#s2'), 1)
-
-      } else {
-        getQuote()
-        timerW.style.display = 'flex'
-        timerR.style.display = 'none'
-        // avoid using .textContent for XSS risks
-        // getQuote().then(res => quote.textContent = res)
-      }
       return
     }
     if (btn.textContent === 'START') {
@@ -233,7 +249,7 @@ mainBtns.forEach((btn, index) => {
 resetBtns.forEach((btn, index) => {
   btn.addEventListener('click', () => {
     btnEffect(btn)
-    reset(index)
+    reset(index, true)
   })
 })
 
