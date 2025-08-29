@@ -53,16 +53,7 @@ function tick(btn, index) {
       btn.textContent = 'STOP'
       // when time is up, if workTimer is displaying, do the following
       const displayW = getComputedStyle(timerW).display
-      if (displayW === 'flex') {
-        console.log('timerW is displaying')
-        // switchTimerVisibility()
-        guide.textContent = "Good work! Let's stop and take a break!"
-      } else {
-        console.log('timerR is displaying')
-        guide.textContent = "Time is up! Let's get productive!"
-      }
-      // if (timerR.style.display === 'flex') {
-      // }
+      displayW === 'flex' ? guide.textContent = "Good work! Let's stop and take a break!" : guide.textContent = "Time is up! Let's get productive!"
       const toFlash = document.querySelector(`#c${index + 1}`)
       flashID = setInterval(() => {
         toFlash.style.opacity = (toFlash.style.opacity === "1") ? "0" : "1" 
@@ -259,7 +250,8 @@ mainBtns.forEach((btn, index) => {
 resetBtns.forEach((btn, index) => {
   btn.addEventListener('click', () => {
     btnEffect(btn)
-    reset(index, true)
+    const displayW = getComputedStyle(timerW).display
+    displayW === 'flex' ? reset(index, false) : reset(index, true)
   })
 })
 
