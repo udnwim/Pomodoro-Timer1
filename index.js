@@ -47,7 +47,7 @@ function tick(btn, index) {
     displaySec.textContent = newSec
     
     if (remainSec === 0) {
-      timeToRelax.play()
+      timeUpAlarm.play()
       clearInterval(timerID)
       isPause = true
       btn.textContent = 'STOP'
@@ -75,8 +75,8 @@ function reset(index, switchBoolean) {
   }
   
   modifyHTML(`#s${index + 1}`, 'START')
-  timeToRelax.currentTime = 0
-  timeToRelax.pause()
+  timeUpAlarm.currentTime = 0
+  timeUpAlarm.pause()
   const [min, sec] = selectContainer(index)
   if (index === 0) {
     [min.textContent, sec.textContent] = [timerRecord[0], timerRecord[1]]
@@ -116,7 +116,7 @@ function getQuote() {
 // getQuote()
 // quoteContainer.addEventListener('click', () => getQuote())
 
-// two timer: default set as 45:00, 15:00. workTimer gets [45, 00, 15, 00]
+// two timers: default set as 45:00, 15:00. workTimer gets [45, 00, 15, 00]
 const workTimer = document.querySelectorAll('.countdown div')
 let timerRecord = []
 // vv get the min and sec of alarms and store them to the timerRecord array
@@ -126,6 +126,7 @@ workTimer.forEach((timer, index) => {
 
 // editable timer
 const breakTimeLabel = document.querySelector('.breakTimeLabel')
+breakTimeLabel.textContent = `Break time: ${timerRecord[2]}:${timerRecord[3]}`
 const breakTimeInput = document.getElementById('breaktime')
 breakTimeInput.addEventListener('change', (e) => {
   const time = breakTimeInput.value
@@ -176,7 +177,7 @@ workTimer.forEach((timer, index) => {
     // anything besides digits will be omit
     let digitOnly = timer.textContent.replace(/[^\d]/g,'')
     timer.textContent = digitOnly
-    // switch to the next editing section after the second digit is entered. when index === 3, cut the third digit
+    // switch to the next edit section after the second digit is entered. when index === 3, cut the third digit
     if (digitOnly.length >= 2) {
       if (index === 3) {
         timer.textContent = timer.textContent.slice(0, 2)
@@ -192,6 +193,9 @@ workTimer.forEach((timer, index) => {
   })
 })
 
+//if no action in 5 seconds, play an animation of mouse clicking the timer
+const mouseIcon = new Image('./lib/left-click')
+
 // start|pause timer
 const mainBtns = document.querySelectorAll('.main')
 const resetBtns = document.querySelectorAll('.resetBtn')
@@ -202,7 +206,7 @@ let timerID, flashID
 const guide = document.querySelector('.guide span')
 const timerW = document.querySelector('.workTimer')
 const timerR = document.querySelector('.relaxTimer')
-const timeToRelax = new Audio('./lib/ambient-piano-music-1.wav')
+const timeUpAlarm = new Audio('./lib/ambient-piano-music-1.wav')
 
 //when the time is up and the stop button is hit, check which timer is displaying and switch visibility
 function switchTimerVisibility() {

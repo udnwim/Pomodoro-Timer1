@@ -74,10 +74,8 @@ body.light {
   /* background-color: blueviolet; */
 }
 .timerWrapper {
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
 }
+
 .quoteContainer {
   display: flex;
   justify-content: center;
@@ -144,8 +142,20 @@ body.light {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   margin-bottom: 50px;
   transition: none;
+}
+.countdown::before {
+  content: '';
+  position: absolute;
+  top: 150%;
+  left: 100%;
+  width: 35px;
+  height: 35px;
+  background-image: url('./lib/left-click.png');
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 .btnContainer {
   display: flex;
