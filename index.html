@@ -17,12 +17,13 @@
   <div class="mainArea">
     <div class="guide"><span>Start the timer when you are ready ：）</span></div>
     <div class="to-do-list-container">
-      <ul class="to-do-list">To do list</ul>
-      <hr>
+      <label for="to-do-list">To do list</label>
+      <ul class="to-do-list" id="to-do-list"></ul>
       <div class="to-do-enter-field">
-        <input type="text" id='to-do-input' placeholder="Enter your memo here">
-        <button>Add</button>
+        <input type="text" id='to-do-input' placeholder="What is your goal today?">
+        <button class="add-btn">Add</button>
       </div>
+      <hr>
     </div>
     <label for="breaktime" class="breakTimeLabel">Break time: </label>
     <input type="text" id="breaktime" placeholder="e.g. Enter 0000 for 00:00">

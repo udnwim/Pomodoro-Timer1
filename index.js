@@ -287,16 +287,36 @@ resetBtns.forEach((btn, index) => {
 // })
 
 //To do list: enter and display as list item
+let todoItems = []
 const memoInput = document.querySelector('#to-do-input')
 const memoBtn = document.querySelector('.to-do-enter-field button')
 const toDoList = document.querySelector('.to-do-list')
-let todoItems = ['121','1','1']
 memoBtn.addEventListener('click', (e) => {
   e.preventDefault()
-  toDoList.innerHTML = todoItems.map((item) => {
-    return `<li>${item}<li>`
-  })
+  if (!memoInput.value) return
+
+  todoItems.push(memoInput.value)
+  render()
 })
 
-// function renderTodoList(arr) {
-// }
+// display everything in the toDoItems array
+function render() {
+  const displayList = document.querySelector('.to-do-list')
+  const itemToRender = todoItems.map((item, index) => {
+    return `
+      <div id=item${index + 1}>
+        <li id=${index + 1}>${item}</li>
+        <button id=${index + 1}>Delete</button>
+      </div>
+    `
+  }).join('')
+  displayList.innerHTML = itemToRender
+}
+render()
+
+//press button to delete items from to do list
+toDoList.addEventListener('click', (e) => {
+  const itemID = document.getElementById(`item${e.target.id}`)
+  todoItems.splice(itemID, 1)
+  render()
+})

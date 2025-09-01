@@ -97,6 +97,16 @@ body.light {
 
   font-size: 25px;
 }
+.to-do-list div {
+  display: flex;
+  position: relative;
+  margin: 5px;
+}
+.to-do-list div button {
+  position: absolute;
+  right: 0;
+}
+
 .workTimer,
 .relaxTimer {
   display: flex;
