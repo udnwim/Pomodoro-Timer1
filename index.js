@@ -260,28 +260,43 @@ resetBtns.forEach((btn, index) => {
 })
 
 // day/night mode toggle
-const themeToggle = document.querySelector('.switchWrapper .slider')
-const switchContainer = document.querySelector('.switchWrapper')
-const body = document.body
-const timers = document.querySelectorAll('.workTimer, .relaxTimer')
-let isDarkMode = false
-switchContainer.addEventListener('click', () => {
-  console.log('clicked')
-  if (isDarkMode) {
-    themeToggle.style.transform = "translateX(0px)"
-    body.classList.replace('dark', 'light')
-    switchContainer.classList.replace('dark', 'light')
-    timers.forEach((timer) => {
-      timer.classList.replace('dark', 'light')
-    })
-    isDarkMode = false
-  } else {
-    themeToggle.style.transform = "translateX(20px)"
-    body.classList.replace('light', 'dark')
-    switchContainer.classList.replace('light', 'dark')
-    timers.forEach((timer) => {
-      timer.classList.replace('light', 'dark')
-    })
-    isDarkMode = true
-  }
+// const themeToggle = document.querySelector('.switchWrapper .slider')
+// const switchContainer = document.querySelector('.switchWrapper')
+// const body = document.body
+// const timers = document.querySelectorAll('.workTimer, .relaxTimer')
+// let isDarkMode = false
+// switchContainer.addEventListener('click', () => {
+//   console.log('clicked')
+//   if (isDarkMode) {
+//     themeToggle.style.transform = "translateX(0px)"
+//     body.classList.replace('dark', 'light')
+//     switchContainer.classList.replace('dark', 'light')
+//     timers.forEach((timer) => {
+//       timer.classList.replace('dark', 'light')
+//     })
+//     isDarkMode = false
+//   } else {
+//     themeToggle.style.transform = "translateX(20px)"
+//     body.classList.replace('light', 'dark')
+//     switchContainer.classList.replace('light', 'dark')
+//     timers.forEach((timer) => {
+//       timer.classList.replace('light', 'dark')
+//     })
+//     isDarkMode = true
+//   }
+// })
+
+//To do list: enter and display as list item
+const memoInput = document.querySelector('#to-do-input')
+const memoBtn = document.querySelector('.to-do-enter-field button')
+const toDoList = document.querySelector('.to-do-list')
+let todoItems = ['121','1','1']
+memoBtn.addEventListener('click', (e) => {
+  e.preventDefault()
+  toDoList.innerHTML = todoItems.map((item) => {
+    return `<li>${item}<li>`
+  })
 })
+
+// function renderTodoList(arr) {
+// }
