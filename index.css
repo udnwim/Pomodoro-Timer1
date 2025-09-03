@@ -89,6 +89,13 @@ body.light {
 .quote, .author {
   /* max-width: 100%; */
 }
+.total-productive-time-wrapper {
+  display: flex;
+}
+.total-productive-time-wrapper button {
+  margin-left: 10px;
+}
+
 .guide {
   display: flex;
   margin: 10px 0;
@@ -97,14 +104,22 @@ body.light {
 
   font-size: 25px;
 }
+
+.to-do-list-container label {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.to-do-list {
+  padding: 0;
+  list-style: none;
+}
 .to-do-list div {
   display: flex;
-  position: relative;
-  margin: 5px;
-}
-.to-do-list div button {
-  position: absolute;
-  right: 0;
+  justify-content: space-between;
+  margin: 5px 0;
 }
 
 .workTimer,
@@ -137,17 +152,7 @@ body.light {
 .relaxTimer.light {
   border-radius: 10px;
 }
-/* @media (min-width: 768px) {
-  .workTimer, 
-  .relaxTimer {
-    max-width: 300px;
-    max-height: 150px;
-    padding: 80px 0;
-  }
-  .quoteContainer {
-    width: 50%;
-  }
-} */
+
 .countdown {
   display: flex;
   justify-content: center;
@@ -176,14 +181,17 @@ body.light {
   /* width: 300px; */
 }
 .btnContainer button {
+  cursor: pointer;
+}
+.btnContainer .main {
   margin-bottom: 20px;
   width: 110px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
-  cursor: pointer;
-  font-size: large;
+  font-size: 1.4rem;
 }
 .resetBtn {
-  width: 60px;
   height: 30px;
+  font-size: 0.8rem;
+  border-radius: 5px;
 }

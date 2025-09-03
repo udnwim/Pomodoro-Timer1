@@ -29,17 +29,18 @@ function modifyHTML(eleSelector, text) {
 }
 
 // pass the btn and the timer indices to this function and start counting
+// btn: an array of (2) buttons with the same classname
 function tick(btn, index) {
   btn.textContent = 'PAUSE'
   const displayMin = document.querySelector(`#c${index + 1} .min`)
   const displaySec = document.querySelector(`#c${index + 1} .sec`)
 
+  //reference: timerRecord = [25, 01, 05, 01]
   // current timestamp + timer convert to ms = alarm timestamp
-  //timerRecord: [25, 01, 05, 01] 
   const getTime = (Number(timerRecord[index * 2]) * 60 + Number(timerRecord[index * 2 + 1])) * 1000
   const end = Date.now() + getTime
   timerID = setInterval(() => {
-    //sometimes timestamp we get from Date.now() can be larger than the real time due to lagging from cpu, browser, etc; Causing the result being negative. use math.max to avoid it
+    //sometimes timestamp we get from Date.now() can be larger than the actual time due to lagging from cpu, browser, etc..., causing the result being negative. use math.max to avoid it
     const remainSec = Math.max(0, Math.round((end - Date.now()) / 1000))
     const newMin = String(Math.floor(remainSec / 60)).padStart(2, '0')
     const newSec = String(remainSec % 60).padStart(2, '0')
@@ -51,7 +52,7 @@ function tick(btn, index) {
       clearInterval(timerID)
       isPause = true
       btn.textContent = 'STOP'
-      // when time is up, if workTimer is displaying, do the following
+      // when time is up, display the following text according to the visibility of timer
       const displayW = getComputedStyle(timerW).display
       displayW === 'flex' ? guide.textContent = "Good work! Let's stop and take a break!" : guide.textContent = "Time is up! Let's get productive!"
       const toFlash = document.querySelector(`#c${index + 1}`)
@@ -98,6 +99,7 @@ function btnEffect(btn) {
   )
 }
 
+//display a quote
 const quote = document.querySelector('.quote')
 const author = document.querySelector('.author')
 const quoteContainer = document.querySelector('.quoteContainer')
@@ -112,19 +114,41 @@ function getQuote() {
   })
   .catch(err => console.error(err))
 }
-
 // getQuote()
 // quoteContainer.addEventListener('click', () => getQuote())
 
-// two timers: default set as 45:00, 15:00. workTimer gets [45, 00, 15, 00]
+//when the timer for break is displaying, add the number from the timerRecord array, and display it
+//timerRecord: record the min and sec of each timer. format: ['25', '00', '05', '00']
+let timerRecord = ['25', '00', '05', '00']
+let totalProductiveHr = 0
+let totalProductiveMin = 0
+// arr is the arr timerRecord
+function displayTotalProductive(arr) {
+  totalProductiveHr += arr[0]
+  totalProductiveMin += arr[1]
+  if (totalProductiveMin > 99) {
+    totalProductiveHr += Math.floor(totalProductiveMin / 60)
+    totalProductiveMin = totalProductiveMin % 60
+    console.log(totalProductiveHr, totalProductiveMin)
+  }
+  // totalProductiveHr = String(totalProductiveHr).length < 2 ? `0${totalProductiveHr}` : totalProductiveHr
+  // totalProductiveMin = String(totalProductiveMin).length < 2 ? `0${totalProductiveMin}` : totalProductiveMin
+
+  const displayTotalHr = document.querySelector('.total-productive-time-wrapper .total-hour')
+  const displayTotalMin = document.querySelector('.total-productive-time-wrapper .total-min')
+  displayTotalHr.textContent = totalProductiveHr
+  displayTotalMin.textContent = totalProductiveMin
+}
+// displayTotalProductive(timerRecord)
+
+
 const workTimer = document.querySelectorAll('.countdown div')
-let timerRecord = []
 // vv get the min and sec of alarms and store them to the timerRecord array
 workTimer.forEach((timer, index) => {
   timerRecord[index] = timer.textContent
 })
 
-// editable timer
+// modify break time in the input box
 const breakTimeLabel = document.querySelector('.breakTimeLabel')
 breakTimeLabel.textContent = `Break time: ${timerRecord[2]}:${timerRecord[3]}`
 const breakTimeInput = document.getElementById('breaktime')
@@ -136,13 +160,14 @@ breakTimeInput.addEventListener('change', (e) => {
   timerRecord[3] = sec
   breakTimeLabel.textContent = `Break time: ${min}:${sec}`
 })
+//modify the timer in the counting box
 workTimer.forEach((timer, index) => {
   timer.addEventListener('click', () => {
     timer.contentEditable = 'true'
     timer.focus()
     highlightText(timer)
   })
-  // when use press "tab" key in editing, switch to the next div
+  //if "tab" key is pressed while entering the time, switch to the next div
   timer.addEventListener('keydown', (e) => {
     if (e.key === 'Tab' && timer.contentEditable) {
       e.preventDefault()
@@ -158,6 +183,7 @@ workTimer.forEach((timer, index) => {
       }
     }
   })
+
   // when use a combination of "shift + tab" is pressed in editing, switch to the previous div
   timer.addEventListener('keydown', (e) => {
     if (e.key === 'Tab' && e.shiftKey) {
@@ -177,7 +203,7 @@ workTimer.forEach((timer, index) => {
     // anything besides digits will be omit
     let digitOnly = timer.textContent.replace(/[^\d]/g,'')
     timer.textContent = digitOnly
-    // switch to the next edit section after the second digit is entered. when index === 3, cut the third digit
+    // switch to the next section when the second digit is entered. If index(the third element in array timerRecord) === 3, cut the third digit
     if (digitOnly.length >= 2) {
       if (index === 3) {
         timer.textContent = timer.textContent.slice(0, 2)
@@ -193,7 +219,7 @@ workTimer.forEach((timer, index) => {
   })
 })
 
-//if no action in 5 seconds, play an animation of mouse clicking the timer
+//[to do]if no action in 5 seconds, play an animation of mouse clicking the timer
 const mouseIcon = new Image('./lib/left-click')
 
 // start|pause timer
@@ -202,7 +228,7 @@ const resetBtns = document.querySelectorAll('.resetBtn')
 let isPause = true
 let timerID, flashID
 
-// when the button is hit, and the timer is not running(isPause=true), get the current display number and start counting down; otherwise reverse the flag and stop the counter
+// when the round button for displaying 'STRAT' or 'PAUSE' is hit, and the timer is not running(isPause=true), get the current display number and start the count down; otherwise reverse the flag and stop the timer
 const guide = document.querySelector('.guide span')
 const timerW = document.querySelector('.workTimer')
 const timerR = document.querySelector('.relaxTimer')
@@ -222,9 +248,10 @@ function switchTimerVisibility() {
   }
 }
 
+//start/pause/stop button click event listener
 mainBtns.forEach((btn, index) => {
   btn.addEventListener('click', () => {
-    //click effect
+    //clicking effect
     btnEffect(btn)
     
     if (btn.textContent === 'STOP') {
@@ -232,6 +259,7 @@ mainBtns.forEach((btn, index) => {
       
       //when the time is up and the stop button is hit, check which timer is displaying and switch visibility
       switchTimerVisibility()
+
       //automatically start the relaxTimer
       // if (getComputedStyle(timerR).display === 'flex') {
       //   tick(document.querySelector('#s2'), 1)
@@ -250,7 +278,7 @@ mainBtns.forEach((btn, index) => {
   })
 })
 
-//reset button
+//reset button (timer)
 resetBtns.forEach((btn, index) => {
   btn.addEventListener('click', () => {
     btnEffect(btn)
@@ -259,7 +287,16 @@ resetBtns.forEach((btn, index) => {
   })
 })
 
-// day/night mode toggle
+//reset button (accumulated study time)
+const resetBtnTotal = document.querySelector('.total-productive-time-wrapper button')
+resetBtnTotal.addEventListener('click', () => {
+  const totalTime = document.querySelectorAll('.total-productive-time-wrapper span')
+  for (let i = 0; i < totalTime.length; i++) {
+    totalTime[i].textContent = '00'
+  }
+})
+
+// a switch for toggling different color theme (day/night)
 // const themeToggle = document.querySelector('.switchWrapper .slider')
 // const switchContainer = document.querySelector('.switchWrapper')
 // const body = document.body
@@ -286,8 +323,8 @@ resetBtns.forEach((btn, index) => {
 //   }
 // })
 
-//To do list: enter and display as list item
-let todoItems = []
+//To do list: enter your goal(s) and display them as list items
+let todoItems = ['Study Javascript']
 const memoInput = document.querySelector('#to-do-input')
 const memoBtn = document.querySelector('.to-do-enter-field button')
 const toDoList = document.querySelector('.to-do-list')
@@ -298,6 +335,11 @@ memoBtn.addEventListener('click', (e) => {
   todoItems.push(memoInput.value)
   render()
 })
+
+//hightlight text in the to-do-list input when focus
+// memoInput.addEventListener('focus', () => {
+//   memoInput.select()
+// })
 
 // display everything in the toDoItems array
 function render() {
@@ -320,3 +362,4 @@ toDoList.addEventListener('click', (e) => {
   todoItems.splice(itemID, 1)
   render()
 })
+
