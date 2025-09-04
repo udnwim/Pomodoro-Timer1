@@ -29,13 +29,13 @@ function modifyHTML(eleSelector, text) {
 }
 
 // pass the btn and the timer indices to this function and start counting
-// btn: an array of (2) buttons with the same classname
+// btn: there are 2 buttons correspond to two timers with the same classname; selected with queryselectAll
 function tick(btn, index) {
   btn.textContent = 'PAUSE'
   const displayMin = document.querySelector(`#c${index + 1} .min`)
   const displaySec = document.querySelector(`#c${index + 1} .sec`)
 
-  //reference: timerRecord = [25, 01, 05, 01]
+  //reference: timerRecord = ['25', '01', '05', '01']
   // current timestamp + timer convert to ms = alarm timestamp
   const getTime = (Number(timerRecord[index * 2]) * 60 + Number(timerRecord[index * 2 + 1])) * 1000
   const end = Date.now() + getTime
@@ -108,7 +108,7 @@ function getQuote() {
   fetch(`http://localhost:3001/proxy?url=${target}`)
   .then(res => res.json())
   .then(data => {
-    console.log(data[0].q, data[0].a)
+    // console.log(data[0].q, data[0].a)
     quote.textContent = data[0].q
     author.textContent = `-${data[0].a}`
   })
@@ -122,24 +122,23 @@ function getQuote() {
 let timerRecord = ['25', '00', '05', '00']
 let totalProductiveHr = 0
 let totalProductiveMin = 0
-// arr is the arr timerRecord
-function displayTotalProductive(arr) {
-  totalProductiveHr += arr[0]
-  totalProductiveMin += arr[1]
+// arr is the arr timerRecord 
+function updateTotalProductive(arr) {
+  const arrN = arr.map(Number)
+  totalProductiveMin += arrN[0]
   if (totalProductiveMin > 99) {
     totalProductiveHr += Math.floor(totalProductiveMin / 60)
     totalProductiveMin = totalProductiveMin % 60
-    console.log(totalProductiveHr, totalProductiveMin)
   }
-  // totalProductiveHr = String(totalProductiveHr).length < 2 ? `0${totalProductiveHr}` : totalProductiveHr
-  // totalProductiveMin = String(totalProductiveMin).length < 2 ? `0${totalProductiveMin}` : totalProductiveMin
+  totalProductiveHr = String(totalProductiveHr).length < 2 ? `0${totalProductiveHr}` : totalProductiveHr
+  totalProductiveMin = String(totalProductiveMin).length < 2 ? `0${totalProductiveMin}` : totalProductiveMin
 
   const displayTotalHr = document.querySelector('.total-productive-time-wrapper .total-hour')
   const displayTotalMin = document.querySelector('.total-productive-time-wrapper .total-min')
   displayTotalHr.textContent = totalProductiveHr
   displayTotalMin.textContent = totalProductiveMin
 }
-// displayTotalProductive(timerRecord)
+// updateTotalProductive(timerRecord)
 
 
 const workTimer = document.querySelectorAll('.countdown div')
@@ -175,7 +174,7 @@ workTimer.forEach((timer, index) => {
       if (timer.textContent.length === 1) {
         timerRecord[index] = timer.textContent.padStart(2, '0')
         timer.textContent = timerRecord[index]
-        console.log(timerRecord)
+        // console.log(timerRecord)
       }
       
       if (index < 3) {
@@ -188,7 +187,7 @@ workTimer.forEach((timer, index) => {
   timer.addEventListener('keydown', (e) => {
     if (e.key === 'Tab' && e.shiftKey) {
       e.preventDefault()
-      console.log(index)
+      // console.log(index)
       
       if (index > 0) {
         switchEnterSection(workTimer, index, -1)
@@ -209,12 +208,12 @@ workTimer.forEach((timer, index) => {
         timer.textContent = timer.textContent.slice(0, 2)
         highlightText(timer)
         timerRecord[index] = timer.textContent
-        console.log(timerRecord)
+        // console.log(timerRecord)
         return
       }
       timerRecord[index] = timer.textContent
       switchEnterSection(workTimer, index, 1)
-      console.log(timerRecord)
+      // console.log(timerRecord)
     }
   })
 })
@@ -259,6 +258,12 @@ mainBtns.forEach((btn, index) => {
       
       //when the time is up and the stop button is hit, check which timer is displaying and switch visibility
       switchTimerVisibility()
+      //if the break timer is displaying, update the total productive time
+      const displayR = getComputedStyle(timerR).display
+      console.log(displayR)
+      if (displayR === 'flex') {
+        updateTotalProductive(timerRecord)
+      }
 
       //automatically start the relaxTimer
       // if (getComputedStyle(timerR).display === 'flex') {
