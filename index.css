@@ -2,11 +2,14 @@
   --deep-purple: #170B3B;
   --light-purple: #9388A2;
   --purple: #341948;
-  --dark-green: #253900;
   --yellow: #FCEF91;
   --orange: #FB9E3A;
   --deeporange: #E6521F;
   --tomato: #EA2F14;
+  --peach: #FFC7A7;
+  --pink: #F08787;
+  --nude: #FEE2AD;
+  --font: #333;
 }
 /* https://colorhunt.co/palette/fcef91fb9e3ae6521fea2f14 */
 /* tomato color platte */
@@ -27,10 +30,25 @@ body.dark {
   color: white;
 }
 body.light {
-  background-color: var(--yellow);
-  color: #000;
+  background-color: var(--peach);
+  color: var(--font);
   /* color: var(--dark-green); */
 }
+button {
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px rgba(0,0,0,0.6);
+  background-color: var(--nude);
+  cursor: pointer;
+}
+input {
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  text-indent: 2px;
+}
+
 .switchWrapper {
   margin: 10px;
   padding: 0;
@@ -45,7 +63,7 @@ body.light {
   cursor: pointer;
 }
 .switchWrapper.dark {
-  background-color: var(--yellow);
+  background-color: var(--peach);
 }
 .switchWrapper.light {
   background-color: var(--tomato);
@@ -125,6 +143,9 @@ body.light {
   justify-content: space-between;
   margin: 5px 0;
 }
+.to-do-enter-field button {
+  height: 30px;
+}
 
 .workTimer,
 .relaxTimer {
@@ -142,7 +163,7 @@ body.light {
   transition: all 0.5s ease-in-out;
 }
 .workTimer {
-  background-color: var(--orange);
+  background-color: var(--pink);
 }
 .relaxTimer {
   background-color: var(--dark-green);
@@ -183,9 +204,6 @@ body.light {
   align-items: center;
 
   /* width: 300px; */
-}
-.btnContainer button {
-  cursor: pointer;
 }
 .btnContainer .main {
   margin-bottom: 20px;

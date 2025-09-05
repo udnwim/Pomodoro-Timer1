@@ -89,7 +89,7 @@ function reset(index, switchBoolean) {
 function btnEffect(btn) {
   btn.animate(
     [
-      {transform: "scale(0.9)"},
+      {transform: "scale(0.8)"},
       {transform: "scale(1)"},
     ],
     {
@@ -100,20 +100,20 @@ function btnEffect(btn) {
 }
 
 //display a quote
-const quote = document.querySelector('.quote')
-const author = document.querySelector('.author')
-const quoteContainer = document.querySelector('.quoteContainer')
-function getQuote() {
-  const target = encodeURIComponent('https://zenquotes.io/api/random');
-  fetch(`http://localhost:3001/proxy?url=${target}`)
-  .then(res => res.json())
-  .then(data => {
-    // console.log(data[0].q, data[0].a)
-    quote.textContent = data[0].q
-    author.textContent = `-${data[0].a}`
-  })
-  .catch(err => console.error(err))
-}
+// const quote = document.querySelector('.quote')
+// const author = document.querySelector('.author')
+// const quoteContainer = document.querySelector('.quoteContainer')
+// function getQuote() {
+//   const target = encodeURIComponent('https://zenquotes.io/api/random');
+//   fetch(`http://localhost:3001/proxy?url=${target}`)
+//   .then(res => res.json())
+//   .then(data => {
+//     // console.log(data[0].q, data[0].a)
+//     quote.textContent = data[0].q
+//     author.textContent = `-${data[0].a}`
+//   })
+//   .catch(err => console.error(err))
+// }
 // getQuote()
 // quoteContainer.addEventListener('click', () => getQuote())
 
@@ -283,12 +283,21 @@ mainBtns.forEach((btn, index) => {
   })
 })
 
+//add click effect on all buttons
+const btnsAll = document.querySelectorAll('button')
+btnsAll.forEach(btn => {
+  btn.addEventListener('click', () => {
+    btnEffect(btn)
+  })
+})
+
 //reset button (timer)
 resetBtns.forEach((btn, index) => {
   btn.addEventListener('click', () => {
-    btnEffect(btn)
     const displayW = getComputedStyle(timerW).display
-    displayW === 'flex' ? reset(index, false) : reset(index, true)
+    reset(index, false)
+    //if the break timer is displaying, switch to the work timer
+    // displayW === 'flex' ? reset(index, false) : reset(index, true)
   })
 })
 
