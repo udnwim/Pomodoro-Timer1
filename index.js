@@ -147,18 +147,26 @@ workTimer.forEach((timer, index) => {
   timerRecord[index] = timer.textContent
 })
 
-// modify break time in the input box
-const breakTimeLabel = document.querySelector('.breakTimeLabel')
-breakTimeLabel.textContent = `Break time: ${timerRecord[2]}:${timerRecord[3]}`
-const breakTimeInput = document.getElementById('breaktime')
-breakTimeInput.addEventListener('change', (e) => {
-  const time = breakTimeInput.value
-  const min = time[0] + time[1]
-  const sec = time[2] + time[3]
-  timerRecord[2] = min
-  timerRecord[3] = sec
-  breakTimeLabel.textContent = `Break time: ${min}:${sec}`
+//a button to toggle the visibility of two timers
+const btnTimerToggle = document.querySelector('.toggle-btn')
+btnTimerToggle.addEventListener('click', () => {
+  switchTimerVisibility()
+  const displayW = getComputedStyle(timerW).display
+  btnTimerToggle.textContent = displayW === 'flex' ? 'I want to take a break' : 'I am ready to work!'
 })
+
+// modify break time in the input box
+// const breakTimeLabel = document.querySelector('.breakTimeLabel')
+// breakTimeLabel.textContent = `Break time: ${timerRecord[2]}:${timerRecord[3]}`
+// const breakTimeInput = document.getElementById('breaktime')
+// breakTimeInput.addEventListener('change', (e) => {
+//   const time = breakTimeInput.value
+//   const min = time[0] + time[1]
+//   const sec = time[2] + time[3]
+//   timerRecord[2] = min
+//   timerRecord[3] = sec
+//   breakTimeLabel.textContent = `Break time: ${min}:${sec}`
+// })
 //modify the timer in the counting box
 workTimer.forEach((timer, index) => {
   timer.addEventListener('click', () => {

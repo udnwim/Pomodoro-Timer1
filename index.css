@@ -186,7 +186,7 @@ input {
   margin-bottom: 50px;
   transition: none;
 }
-.countdown::before {
+/* .countdown::before {
   content: '';
   position: absolute;
   top: 150%;
@@ -196,7 +196,7 @@ input {
   background-image: url('./lib/left-click.png');
   background-size: contain;
   background-repeat: no-repeat;
-}
+} */
 .btnContainer {
   display: flex;
   flex-direction: column;
