@@ -14,21 +14,13 @@
     <div class="quote">To be great is to be misunderstood. </div>
     <div class="author">- Ralph Waldo Emerson</div>
   </div> -->
+  <div class="total-productive-time-wrapper">
+    <div>You have been working for: <span class="total-hour">00</span> hr <span class="total-min">00</span> min</div>
+    <button>Reset</button>
+  </div>
   <div class="mainArea">
-    <div class="total-productive-time-wrapper">
-      <div>You have been working for: <span class="total-hour">00</span> hr <span class="total-min">00</span> min</div>
-      <button>Reset</button>
-    </div>
     <div class="guide"><span>Start the timer when you are ready ：）</span></div>
-    <div class="to-do-list-container">
-      <label for="to-do-list">To do list</label>
-      <ul class="to-do-list" id="to-do-list"></ul>
-      <div class="to-do-enter-field">
-        <input type="text" id='to-do-input' placeholder="What is your goal today?">
-        <button class="add-btn">Add</button>
-      </div>
-      <hr>
-    </div>
+
     <!-- a button to switch the timer -->
     <div class="timer-toggle-container">
       <!-- <label for="breaktime" class="breakTimeLabel">Break time: </label> -->
@@ -58,6 +50,15 @@
           <button class="main" id="s2">START</button>
           <button class="resetBtn" id="r2">RESET</button>
         </div>
+      </div>
+    </div>
+        <!-- if screen is protrait, display the to do list from top to bottom; if landscape, display from left to right -->
+    <div class="to-do-list-container">
+      <label for="to-do-list">To do list</label>
+      <ul class="to-do-list" id="to-do-list"></ul>
+      <div class="to-do-enter-field">
+        <input type="text" id='to-do-input' placeholder="What is your goal today?">
+        <button class="add-btn">Add</button>
       </div>
     </div>
   </div>

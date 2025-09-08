@@ -8,13 +8,17 @@
   --tomato: #EA2F14;
   --peach: #FFC7A7;
   --pink: #F08787;
+  --pink2: #FF6363;
   --nude: #FEE2AD;
+  --green: #8FA31E;
+  --light-font-break: #EFF5D2;
+  --light-font-work: #DBFFCB;
   --font: #333;
 }
 /* https://colorhunt.co/palette/fcef91fb9e3ae6521fea2f14 */
 /* tomato color platte */
 body {
-  position: relative;
+  /* position: relative; */
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -113,9 +117,17 @@ input {
 }
 .total-productive-time-wrapper {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 35px;
+  background-color: var(--pink);
 }
 .total-productive-time-wrapper button {
   margin-left: 10px;
+  height: 70%;
 }
 
 .guide {
@@ -126,7 +138,12 @@ input {
 
   font-size: 25px;
 }
-
+.to-do-list-container {
+  margin: 20px 0;
+  padding: 20px;
+  border: 2px dashed gray;
+  border-radius: 10px;
+}
 .to-do-list-container label {
   display: block;
   margin: 0 auto;
@@ -158,25 +175,25 @@ input {
 
   width: 200px; 
   font-size: 50px;
-  border: 2px solid gray;
+  border-radius: 10px;
+  box-shadow: 1px 2px rgba(0,0,0,0.5);
 
   transition: all 0.5s ease-in-out;
 }
 .workTimer {
   background-color: var(--pink);
+  color: var(--light-font-work);
 }
 .relaxTimer {
-  background-color: var(--dark-green);
+  background-color: var(--green);
+  color: var(--light-font-break);
 }
-.workTimer.dark,
+/* .workTimer.dark,
 .relaxTimer.dark {
-  /* border: 2px solid var(--gray); */
-  border-radius: 10px;
 }
 .workTimer.light,
 .relaxTimer.light {
-  border-radius: 10px;
-}
+} */
 
 .countdown {
   display: flex;
