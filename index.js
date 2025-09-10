@@ -365,7 +365,9 @@ memoBtn.addEventListener('click', (e) => {
   if (!memoInput.value) return
 
   todoItems.push(memoInput.value)
-  render()
+  renderToDo()
+  memoInput.value = ''
+  memoInput.focus()
 })
 
 //hightlight text in the to-do-list input when focus
@@ -374,24 +376,27 @@ memoBtn.addEventListener('click', (e) => {
 // })
 
 // display everything in the toDoItems array
-function render() {
+function renderToDo() {
   const displayList = document.querySelector('.to-do-list')
   const itemToRender = todoItems.map((item, index) => {
     return `
       <div id=item${index + 1}>
-        <li id=${index + 1}>${item}</li>
+        <li id=${index + 1}>
+          <input type='checkbox'></input>
+          <span>${item}</span>
+        </li>
         <button id=${index + 1}>Delete</button>
       </div>
     `
   }).join('')
   displayList.innerHTML = itemToRender
 }
-render()
+renderToDo()
 
 //press button to delete items from to do list
 toDoList.addEventListener('click', (e) => {
   const itemID = document.getElementById(`item${e.target.id}`)
   todoItems.splice(itemID, 1)
-  render()
+  renderToDo()
 })
 

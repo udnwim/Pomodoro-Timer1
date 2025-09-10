@@ -166,10 +166,15 @@ input {
   padding: 0;
   list-style: none;
 }
+.to-do-list li {
+  display: flex;
+  align-items: center;
+}
 .to-do-list div {
   display: flex;
   justify-content: space-between;
   margin: 5px 0;
+  height: 25px;
 }
 .to-do-enter-field button {
   height: 30px;
