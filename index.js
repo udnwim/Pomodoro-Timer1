@@ -55,6 +55,7 @@ function tick(btn, index) {
       // when time is up, display the following text according to the visibility of timer
       const displayW = getComputedStyle(timerW).display
       displayW === 'flex' ? guide.textContent = "Good work! Let's stop and take a break!" : guide.textContent = "Time is up! Let's get productive!"
+      btnTimerToggle.classList.add('hidden')
       const toFlash = document.querySelector(`#c${index + 1}`)
       flashID = setInterval(() => {
         toFlash.style.opacity = (toFlash.style.opacity === "1") ? "0" : "1" 
@@ -74,6 +75,9 @@ function reset(index, switchBoolean) {
   if (switchBoolean === true) {
     switchTimerVisibility()
   }
+  
+  const displayW = getComputedStyle(timerW).display
+  btnTimerToggle.classList.remove('hidden')
   
   modifyHTML(`#s${index + 1}`, 'START')
   timeUpAlarm.currentTime = 0
@@ -148,11 +152,15 @@ workTimer.forEach((timer, index) => {
 })
 
 //a button to toggle the visibility of two timers
+function changeTimer() {
+  btnTimerToggle.classList.remove('hidden')
+  const displayW = getComputedStyle(timerW).display
+  btnTimerToggle.textContent = displayW === 'flex' ? 'I want to take a break' : 'I am ready to work!'
+}
 const btnTimerToggle = document.querySelector('.toggle-btn')
 btnTimerToggle.addEventListener('click', () => {
   switchTimerVisibility()
-  const displayW = getComputedStyle(timerW).display
-  btnTimerToggle.textContent = displayW === 'flex' ? 'I want to take a break' : 'I am ready to work!'
+  changeTimer()
 })
 
 // modify break time in the input box
@@ -266,6 +274,8 @@ mainBtns.forEach((btn, index) => {
       
       //when the time is up and the stop button is hit, check which timer is displaying and switch visibility
       switchTimerVisibility()
+      changeTimer()
+
       //if the break timer is displaying, update the total productive time
       const displayR = getComputedStyle(timerR).display
       console.log(displayR)

@@ -22,6 +22,7 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  /* margin-top: 60px; */
 
   font-family:'Open Sans', Arial, sans-serif;
   /* font-family:'Franklin Gothic', 'Arial Narrow', Arial, sans-serif; */
@@ -94,6 +95,7 @@ input {
   justify-content: center;
   align-items: center;
   margin: 20px auto;
+  margin-top: 100px;
   max-width: 70vw;
   height: 80vh;
 
@@ -138,6 +140,15 @@ input {
 
   font-size: 25px;
 }
+
+/* .timer-toggle-container {
+  margin: 40px 0;
+} */
+
+.hidden {
+  visibility: hidden;
+}
+
 .to-do-list-container {
   margin: 20px 0;
   padding: 20px;
