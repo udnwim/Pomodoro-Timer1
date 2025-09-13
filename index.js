@@ -360,6 +360,7 @@ let todoItems = ['Study Javascript']
 const memoInput = document.querySelector('#to-do-input')
 const memoBtn = document.querySelector('.to-do-enter-field button')
 const toDoList = document.querySelector('.to-do-list')
+// button clicking event: add todo item to the list
 memoBtn.addEventListener('click', (e) => {
   e.preventDefault()
   if (!memoInput.value) return
@@ -380,23 +381,39 @@ function renderToDo() {
   const displayList = document.querySelector('.to-do-list')
   const itemToRender = todoItems.map((item, index) => {
     return `
-      <div id=item${index + 1}>
-        <li id=${index + 1}>
+      <li id=${index + 1}>
+        <label>
           <input type='checkbox'></input>
-          <span>${item}</span>
-        </li>
-        <button id=${index + 1}>Delete</button>
-      </div>
+          ${item}
+        </label>
+        <button id=${index + 1} class="deleteBtn">Delete</button>
+      </li>
     `
+    // return `
+    //   <div>
+    //     <li id=${index + 1}>
+    //       <input type='checkbox' name=item${index + 1}></input>
+    //       <label for="item${index + 1}">${item}</label>
+    //     </li>
+    //     <button id=${index + 1} class="deleteBtn">Delete</button>
+    //   </div>
+    // `
   }).join('')
   displayList.innerHTML = itemToRender
 }
 renderToDo()
 
-//press button to delete items from to do list
+//button clicking event: delete items from to do list/edit to do list
 toDoList.addEventListener('click', (e) => {
-  const itemID = document.getElementById(`item${e.target.id}`)
-  todoItems.splice(itemID, 1)
-  renderToDo()
+  console.log(e.target)
+  if (e.target.tagName === 'BUTTON') {
+    // console.log("You clicked the delete button")
+    const itemID = document.getElementById(`item${e.target.id}`)
+    todoItems.splice(itemID, 1)
+    renderToDo()
+  }
+  if (e.target.tagName === 'LABEL' || e.target.tagName === 'INPUT') {
+    console.log('You clicked on the list item')
+  }
 })
 

@@ -155,7 +155,7 @@ input {
   border: 2px dashed gray;
   border-radius: 10px;
 }
-.to-do-list-container label {
+.to-do-list-container > label {
   display: block;
   margin: 0 auto;
   text-align: center;
@@ -169,13 +169,22 @@ input {
 .to-do-list li {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
-.to-do-list div {
+/* .to-do-list li button{
+  height: 25px;
+} */
+.to-do-list label {
+  display: flex;
+  align-items: center;
+}
+
+/* .to-do-list div {
   display: flex;
   justify-content: space-between;
   margin: 5px 0;
   height: 25px;
-}
+} */
 .to-do-enter-field button {
   height: 30px;
 }
