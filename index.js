@@ -370,6 +370,17 @@ memoBtn.addEventListener('click', (e) => {
   memoInput.value = ''
   memoInput.focus()
 })
+// if user press "enter" in the to-do input box, add content in the to do list
+memoInput.addEventListener('keyup', (e) => {
+  if (e.key === 'Enter') {
+    if (!memoInput.value) return
+
+    todoItems.push(memoInput.value)
+    renderToDo()
+    memoInput.value = ''
+    memoInput.focus()
+  }
+})
 
 //hightlight text in the to-do-list input when focus
 // memoInput.addEventListener('focus', () => {
@@ -384,7 +395,7 @@ function renderToDo() {
       <li id=${index + 1}>
         <label>
           <input type='checkbox'></input>
-          ${item}
+          <span>${item}</span>
         </label>
         <button id=${index + 1} class="deleteBtn">Delete</button>
       </li>
@@ -405,14 +416,15 @@ renderToDo()
 
 //button clicking event: delete items from to do list/edit to do list
 toDoList.addEventListener('click', (e) => {
-  console.log(e.target)
-  if (e.target.tagName === 'BUTTON') {
+  // console.log(e.target)
+  const {tagName, id} = e.target
+  if (tagName === 'BUTTON') {
     // console.log("You clicked the delete button")
-    const itemID = document.getElementById(`item${e.target.id}`)
+    const itemID = document.getElementById(`item${id}`)
     todoItems.splice(itemID, 1)
     renderToDo()
   }
-  if (e.target.tagName === 'LABEL' || e.target.tagName === 'INPUT') {
+  if (tagName === 'INPUT') {
     console.log('You clicked on the list item')
   }
 })
