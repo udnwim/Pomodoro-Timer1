@@ -153,14 +153,26 @@ workTimer.forEach((timer, index) => {
 
 //a button to toggle the visibility of two timers
 function changeTimer() {
+  let timerIndex
   btnTimerToggle.classList.remove('hidden')
   const displayW = getComputedStyle(timerW).display
-  btnTimerToggle.textContent = displayW === 'flex' ? 'I want to take a break' : 'I am ready to work!'
+  if (displayW === 'flex') {
+    btnTimerToggle.textContent = 'I want to take a break'
+    timerIndex = 0
+  } else {
+    btnTimerToggle.textContent = 'I am ready to work!'
+    timerIndex = 1
+  }
+  // stop the current timer
+  reset(timerIndex, false)
+
+  // btnTimerToggle.textContent = displayW === 'flex' ? 'I want to take a break' : 'I am ready to work!'
+
 }
 const btnTimerToggle = document.querySelector('.toggle-btn')
 btnTimerToggle.addEventListener('click', () => {
-  switchTimerVisibility()
   changeTimer()
+  switchTimerVisibility()
 })
 
 // modify break time in the input box
