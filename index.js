@@ -151,8 +151,8 @@ workTimer.forEach((timer, index) => {
   timerRecord[index] = timer.textContent
 })
 
-//a button to toggle the visibility of two timers
-function changeTimer() {
+//change the text on the button based on which timer is currently displaying
+function changeBtnText() {
   let timerIndex
   btnTimerToggle.classList.remove('hidden')
   const displayW = getComputedStyle(timerW).display
@@ -169,10 +169,12 @@ function changeTimer() {
   // btnTimerToggle.textContent = displayW === 'flex' ? 'I want to take a break' : 'I am ready to work!'
 
 }
+
+//button to switch to a different timer
 const btnTimerToggle = document.querySelector('.toggle-btn')
 btnTimerToggle.addEventListener('click', () => {
-  changeTimer()
   switchTimerVisibility()
+  changeBtnText()
 })
 
 // modify break time in the input box
@@ -313,7 +315,7 @@ mainBtns.forEach((btn, index) => {
   })
 })
 
-//add click effect on all buttons
+//add click effect to all buttons
 const btnsAll = document.querySelectorAll('button')
 btnsAll.forEach(btn => {
   btn.addEventListener('click', () => {
@@ -400,31 +402,31 @@ memoInput.addEventListener('keyup', (e) => {
 // })
 
 // display everything in the toDoItems array
+const emptyHappyFace = './lib/happy-empty.png'
+const filledHappyFace = './lib/happy-filled.png'
+
 function renderToDo() {
   const displayList = document.querySelector('.to-do-list')
   const itemToRender = todoItems.map((item, index) => {
     return `
       <li id=${index + 1}>
         <label>
-          <input type='checkbox'></input>
+          <img src=${emptyHappyFace}></img>
           <span>${item}</span>
         </label>
-        <button id=${index + 1} class="deleteBtn">Delete</button>
+        <div class='todolist-btncontainer'>
+          <button id=${index + 1} class="editBtn">Edit</button>
+          <button id=${index + 1} class="deleteBtn">Delete</button>
+        </div>
       </li>
     `
-    // return `
-    //   <div>
-    //     <li id=${index + 1}>
-    //       <input type='checkbox' name=item${index + 1}></input>
-    //       <label for="item${index + 1}">${item}</label>
-    //     </li>
-    //     <button id=${index + 1} class="deleteBtn">Delete</button>
-    //   </div>
-    // `
   }).join('')
   displayList.innerHTML = itemToRender
 }
 renderToDo()
+
+//item checking event: smiling face will be filled
+
 
 //button clicking event: delete items from to do list/edit to do list
 toDoList.addEventListener('click', (e) => {
