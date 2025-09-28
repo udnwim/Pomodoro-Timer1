@@ -171,18 +171,21 @@ input {
   align-items: center;
   justify-content: space-between;
 }
-.to-do-list label {
+.to-do-list div {
   display: flex;
   align-items: center;
-}
-.to-do-list label img {
-  width: 1.3rem;
   cursor: pointer;
 }
-.to-do-list label span {
+.to-do-list div img {
+  width: 1.3rem;
+}
+.to-do-list div span {
+  user-select: none; /* prevents text selection */
   margin-left: 8px;
 }
 .todolist-btncontainer {
+  display: flex;
+  gap: 5px;
   margin-left: 10px;
 }
 .to-do-enter-field button {

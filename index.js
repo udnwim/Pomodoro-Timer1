@@ -402,21 +402,25 @@ memoInput.addEventListener('keyup', (e) => {
 // })
 
 // display everything in the toDoItems array
-const emptyHappyFace = './lib/happy-empty.png'
-const filledHappyFace = './lib/happy-filled.png'
+const emptyHappyFace = './lib/emptyHappyFace.png'
+const filledHappyFace = './lib/filledHappyFace.png'
 
 function renderToDo() {
   const displayList = document.querySelector('.to-do-list')
   const itemToRender = todoItems.map((item, index) => {
     return `
-      <li id=${index + 1}>
-        <label>
-          <img src=${emptyHappyFace}></img>
-          <span>${item}</span>
-        </label>
+      <li id=item${index + 1}>
+        <div id=checkbox${index + 1}
+        >
+          <img 
+            src=${emptyHappyFace}  class=todo-checkbox
+            data-id=${index + 1}
+          ></img>
+          <span data-id=${index + 1}>${item}</span>
+        </div>
         <div class='todolist-btncontainer'>
-          <button id=${index + 1} class="editBtn">Edit</button>
-          <button id=${index + 1} class="deleteBtn">Delete</button>
+          <button id=edit${index + 1} class="editBtn">Edit</button>
+          <button id=delete${index + 1} class="deleteBtn">Delete</button>
         </div>
       </li>
     `
@@ -425,7 +429,25 @@ function renderToDo() {
 }
 renderToDo()
 
-//item checking event: smiling face will be filled
+//task check off event
+const checkbox = document.querySelector('.todo-checkbox-container')
+//play a sound if a task is checked off
+const rewardSound = new Audio('./lib/task-finished.mp3')
+// when the to do list is clicked, find which item in the list is clicked and checkoff this item
+toDoList.addEventListener('click', (e) => {
+  if (e.target && e.target.nodeName === 'IMG' || e.target.nodeName === 'SPAN' ) {
+    const currentItem = document.getElementById(`checkbox${e.target.dataset.id}`)
+    btnEffect(currentItem)
+    const currentImg = currentItem.children[0].src
+    if (currentImg.includes('emptyHappyFace.png')) {
+      rewardSound.currentTime = 0
+      rewardSound.play()
+      currentItem.children[0].src = filledHappyFace
+    } else {
+      currentItem.children[0].src = emptyHappyFace
+    }
+  }
+})
 
 
 //button clicking event: delete items from to do list/edit to do list
