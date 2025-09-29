@@ -370,7 +370,7 @@ resetBtnTotal.addEventListener('click', () => {
 // })
 
 //To do list: enter your goal(s) and display them as list items
-let todoItems = ['Study Javascript']
+let toDoItems = ['Study Javascript']
 const memoInput = document.querySelector('#to-do-input')
 const memoBtn = document.querySelector('.to-do-enter-field button')
 const toDoList = document.querySelector('.to-do-list')
@@ -379,7 +379,7 @@ memoBtn.addEventListener('click', (e) => {
   e.preventDefault()
   if (!memoInput.value) return
 
-  todoItems.push(memoInput.value)
+  toDoItems.push(memoInput.value)
   renderToDo()
   memoInput.value = ''
   memoInput.focus()
@@ -389,7 +389,7 @@ memoInput.addEventListener('keyup', (e) => {
   if (e.key === 'Enter') {
     if (!memoInput.value) return
 
-    todoItems.push(memoInput.value)
+    toDoItems.push(memoInput.value)
     renderToDo()
     memoInput.value = ''
     memoInput.focus()
@@ -407,7 +407,7 @@ const filledHappyFace = './lib/filledHappyFace.png'
 
 function renderToDo() {
   const displayList = document.querySelector('.to-do-list')
-  const itemToRender = todoItems.map((item, index) => {
+  const itemToRender = toDoItems.map((item, index) => {
     return `
       <li id=item${index + 1}>
         <div id=checkbox${index + 1}
@@ -419,8 +419,14 @@ function renderToDo() {
           <span data-id=${index + 1}>${item}</span>
         </div>
         <div class='todolist-btncontainer'>
-          <button id=edit${index + 1} class="editBtn">Edit</button>
-          <button id=delete${index + 1} class="deleteBtn">Delete</button>
+          <button 
+            data-id=${index + 1} 
+            class="editBtn"
+          >Edit</button>
+          <button 
+            data-id=${index + 1} 
+            class="deleteBtn"
+          >Delete</button>
         </div>
       </li>
     `
@@ -436,15 +442,17 @@ const rewardSound = new Audio('./lib/task-finished.mp3')
 // when the to do list is clicked, find which item in the list is clicked and checkoff this item
 toDoList.addEventListener('click', (e) => {
   if (e.target && e.target.nodeName === 'IMG' || e.target.nodeName === 'SPAN' ) {
-    const currentItem = document.getElementById(`checkbox${e.target.dataset.id}`)
-    btnEffect(currentItem)
-    const currentImg = currentItem.children[0].src
-    if (currentImg.includes('emptyHappyFace.png')) {
-      rewardSound.currentTime = 0
-      rewardSound.play()
-      currentItem.children[0].src = filledHappyFace
-    } else {
-      currentItem.children[0].src = emptyHappyFace
+    if (e.target.contentEditable === 'false' || e.target.contentEditable === 'inherit') {
+      const currentItem = document.getElementById(`checkbox${e.target.dataset.id}`)
+      btnEffect(currentItem)
+      const currentImg = currentItem.children[0].src
+      if (currentImg.includes('emptyHappyFace.png')) {
+        rewardSound.currentTime = 0
+        rewardSound.play()
+        currentItem.children[0].src = filledHappyFace
+      } else {
+        currentItem.children[0].src = emptyHappyFace
+      }
     }
   }
 })
@@ -452,16 +460,39 @@ toDoList.addEventListener('click', (e) => {
 
 //button clicking event: delete items from to do list/edit to do list
 toDoList.addEventListener('click', (e) => {
-  // console.log(e.target)
-  const {tagName, id} = e.target
-  if (tagName === 'BUTTON') {
-    // console.log("You clicked the delete button")
-    const itemID = document.getElementById(`item${id}`)
-    todoItems.splice(itemID, 1)
+  const {tagName, dataset, textContent} = e.target
+  console.log(tagName)
+  if (tagName === 'BUTTON' && textContent === 'Delete') {
+    const itemID = document.getElementById(`item${dataset.id}`)
+    toDoItems.splice(itemID, 1)
     renderToDo()
   }
-  if (tagName === 'INPUT') {
-    console.log('You clicked on the list item')
+  if (tagName === 'BUTTON' && textContent === 'Edit') {
+    const itemID = document.querySelector(`#item${dataset.id} span`)
+    console.log(itemID)
+    itemID.contentEditable = 'true'
+    highlightText(itemID)
   }
 })
 
+// when the span lose focus(finish editing), disable contentEditable 
+// blur event does not bubble, used capture: true
+toDoList.addEventListener('blur', (e) => {
+  if (e.target.tagName === 'SPAN') {
+    updateToDoArray(e.target)
+  }
+}, true)
+
+// if 'enter' is pressed when editing list item, 
+toDoList.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault()
+    updateToDoArray(e.target)
+  }
+})
+
+function updateToDoArray(element) {
+  const index = element.dataset.id - 1
+  toDoItems[index] = element.textContent
+  element.contentEditable = 'false'
+}

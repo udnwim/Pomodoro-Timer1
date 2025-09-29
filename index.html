@@ -18,16 +18,16 @@
     <div>You've worked for: <span class="total-hour">00</span> hr <span class="total-min">00</span> min</div>
     <button>Reset</button>
   </div>
+  <div class="guide"><span>Start the timer when you are ready ：）</span></div>
   <div class="mainArea">
-    <div class="guide"><span>Start the timer when you are ready ：）</span></div>
-
-    <!-- a button to switch the timer -->
-    <div class="timer-toggle-container">
-      <!-- <label for="breaktime" class="breakTimeLabel">Break time: </label> -->
-      <!-- <input type="text" id="breaktime" placeholder="e.g. Enter 0000 for 00:00"> -->
-      <button class="toggle-btn">I want to take a break</button>
-    </div>
     <div class="timerWrapper">
+      <!-- a button to switch the timer -->
+      <div class="timer-toggle-container">
+        <!-- <label for="breaktime" class="breakTimeLabel">Break time: </label> -->
+        <!-- <input type="text" id="breaktime" placeholder="e.g. Enter 0000 for 00:00"> -->
+        <button class="toggle-btn">I want to take a break</button>
+      </div>
+      <!-- pink timer: work -->
       <div class="workTimer light">
         <!-- c1:count; s1:start; r1:reset -->
         <div class="countdown" id="c1">
@@ -40,6 +40,7 @@
           <button class="resetBtn" id="r1">RESET</button>
         </div>
       </div>
+      <!-- green timer: break -->
       <div class="relaxTimer light" style="display:none">
         <div class="countdown" id="c2">
           <div class="min">05</div>
@@ -52,7 +53,6 @@
         </div>
       </div>
     </div>
-        <!-- if screen is protrait, display the to do list from top to bottom; if landscape, display from left to right -->
     <div class="to-do-list-container">
       <label for="to-do-list">To do list</label>
       <ul class="to-do-list" id="to-do-list"></ul>

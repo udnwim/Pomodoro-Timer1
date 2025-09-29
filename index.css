@@ -91,18 +91,17 @@ input {
 }
 .mainArea {
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 20px auto;
-  margin-top: 100px;
+  margin: 0 auto;
   max-width: 70vw;
   height: 80vh;
-
-  /* background-color: blueviolet; */
 }
-.timerWrapper {
-}
+/* .timerWrapper {
+  margin: 0 50px;
+} */
 
 .quoteContainer {
   display: flex;
@@ -123,8 +122,8 @@ input {
   align-items: center;
   position: fixed;
   top: 0;
-  width: 100%;
-  height: 35px;
+  width: 100vw;
+  height: 5vh;
   background-color: var(--pink);
 }
 .total-productive-time-wrapper button {
@@ -134,16 +133,17 @@ input {
 
 .guide {
   display: flex;
-  margin: 10px 0;
+  margin: 50px 0;
   justify-content: center;
   /* max-width: 100%; */
 
   font-size: 25px;
 }
 
-/* .timer-toggle-container {
-  margin: 40px 0;
-} */
+.timer-toggle-container {
+  display: flex;
+  justify-content: center;
+}
 
 .hidden {
   visibility: hidden;
@@ -170,6 +170,7 @@ input {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 .to-do-list div {
   display: flex;
@@ -177,7 +178,7 @@ input {
   cursor: pointer;
 }
 .to-do-list div img {
-  width: 1.3rem;
+  width: 1.8rem;
 }
 .to-do-list div span {
   user-select: none; /* prevents text selection */
@@ -186,9 +187,17 @@ input {
 .todolist-btncontainer {
   display: flex;
   gap: 5px;
-  margin-left: 10px;
+  margin-left: 30px;
+}
+.todolist-btncontainer button {
+  height: 30px;
+}
+.to-do-enter-field {
+  display: flex;
+  justify-content: center;
 }
 .to-do-enter-field button {
+  margin-left: 10px;
   height: 30px;
 }
 
