@@ -18,7 +18,7 @@
 /* https://colorhunt.co/palette/fcef91fb9e3ae6521fea2f14 */
 /* tomato color platte */
 body {
-  /* position: relative; */
+  position: relative;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
@@ -52,6 +52,20 @@ input {
   border-radius: 5px;
   font-size: 0.9rem;
   text-indent: 2px;
+}
+
+.side-menu {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--green);
+  z-index: 1;
+  transform: translateX(100vw);
+  transition: 0.5s ease-in-out;
+}
+
+.left-slide {
+  transform: translateX(0vw);
 }
 
 .switchWrapper {
@@ -120,7 +134,7 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100vw;
   height: 5vh;

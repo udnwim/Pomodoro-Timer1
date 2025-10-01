@@ -269,11 +269,11 @@ function switchTimerVisibility() {
   if (displayW === 'flex') {
     timerW.style.display = 'none'
     timerR.style.display = 'flex'
-    console.log("switched to relax timer")
+    // console.log("switched to relax timer")
   } else {
     timerW.style.display = 'flex'
     timerR.style.display = 'none'
-    console.log("switched to work timer")
+    // console.log("switched to work timer")
   }
 }
 
@@ -292,7 +292,7 @@ mainBtns.forEach((btn, index) => {
 
       //if the break timer is displaying, update the total productive time
       const displayR = getComputedStyle(timerR).display
-      console.log(displayR)
+      // console.log(displayR)
       if (displayR === 'flex') {
         updateTotalProductive(timerRecord)
       }
@@ -461,7 +461,7 @@ toDoList.addEventListener('click', (e) => {
 //button clicking event: delete items from to do list/edit to do list
 toDoList.addEventListener('click', (e) => {
   const {tagName, dataset, textContent} = e.target
-  console.log(tagName)
+  // console.log(tagName)
   if (tagName === 'BUTTON' && textContent === 'Delete') {
     const itemID = document.getElementById(`item${dataset.id}`)
     toDoItems.splice(itemID, 1)
@@ -469,7 +469,7 @@ toDoList.addEventListener('click', (e) => {
   }
   if (tagName === 'BUTTON' && textContent === 'Edit') {
     const itemID = document.querySelector(`#item${dataset.id} span`)
-    console.log(itemID)
+    // console.log(itemID)
     itemID.contentEditable = 'true'
     highlightText(itemID)
   }
@@ -496,3 +496,10 @@ function updateToDoArray(element) {
   toDoItems[index] = element.textContent
   element.contentEditable = 'false'
 }
+
+const sideMenuBtn = document.querySelector('.side-menu-btn')
+const sideMenu = document.querySelector('.side-menu')
+console.log(sideMenu)
+sideMenuBtn.addEventListener('click', () => {
+  sideMenu.classList.add('left-slide')
+})
