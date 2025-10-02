@@ -18,12 +18,16 @@
 /* https://colorhunt.co/palette/fcef91fb9e3ae6521fea2f14 */
 /* tomato color platte */
 body {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  position: relative;
+  height: 100vh;
   /* margin-top: 60px; */
 
+  /* font-size: 1.1rem; */
   font-family:'Open Sans', Arial, sans-serif;
   /* font-family:'Franklin Gothic', 'Arial Narrow', Arial, sans-serif; */
   /* font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
@@ -40,32 +44,65 @@ body.light {
   /* color: var(--dark-green); */
 }
 button {
+  display: inline-flex;
+  align-items: center; 
+  justify-content: center;
+
+  width: 45px;
+  height: 45px;
+
+  font-size: 1rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 1px 1px rgba(0,0,0,0.6);
   background-color: var(--nude);
   cursor: pointer;
 }
+*::before {
+  content: '';
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
 input {
-  height: 30px;
+  padding-left: 8px;
+  height: 45px;
   border: none;
   border-radius: 5px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   text-indent: 2px;
 }
 
 .side-menu {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
   width: 100vw;
   height: 100vh;
   background-color: var(--green);
-  z-index: 1;
+  z-index: 1000;
   transform: translateX(100vw);
-  transition: 0.5s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+.side-menu-btn {
+  position: fixed;
+  top: 5px;
+  right: 5px;
+  z-index: 1001;
+  width: 45px;
+  height: 45px;
+  /* transform: translate(-50%, 10px); */
+  
+  border-radius: 100%;
+}
+.side-menu-btn::before {
+  width: 25px;
+  height: 25px;
+  background-image: url('./lib/menu.png');
 }
 
-.left-slide {
-  transform: translateX(0vw);
+.active {
+  right: 100vw;
 }
 
 .switchWrapper {
@@ -106,12 +143,10 @@ input {
 .mainArea {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin: 20px auto;
   max-width: 70vw;
-  height: 80vh;
 }
 /* .timerWrapper {
   margin: 0 50px;
@@ -124,7 +159,7 @@ input {
   margin: 20px 0;
   /* position: relative; */
 
-  font-size: 20px;
+  /* font-size: 20px; */
   cursor: pointer;
 }
 .quote, .author {
@@ -134,10 +169,10 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  top: 0;
+  /* position: absolute; */
+  /* top: 0; */
   width: 100vw;
-  height: 5vh;
+  height: 5%;
   background-color: var(--pink);
 }
 .total-productive-time-wrapper button {
@@ -151,12 +186,16 @@ input {
   justify-content: center;
   /* max-width: 100%; */
 
-  font-size: 25px;
+  /* font-size: 25px; */
 }
 
 .timer-toggle-container {
   display: flex;
   justify-content: center;
+}
+
+.timer-toggle-container button {
+  width: 200px;
 }
 
 .hidden {
@@ -165,7 +204,7 @@ input {
 
 .to-do-list-container {
   margin: 20px 0;
-  padding: 20px;
+  padding: 10px 20px;
   border: 2px dashed gray;
   border-radius: 10px;
 }
@@ -173,10 +212,11 @@ input {
   display: block;
   margin: 0 auto;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 700;
 }
 .to-do-list {
+  margin: 0;
   padding: 0;
   list-style: none;
 }
@@ -195,24 +235,42 @@ input {
   width: 1.8rem;
 }
 .to-do-list div span {
-  user-select: none; /* prevents text selection */
   margin-left: 8px;
+  min-width: 140px;
+
+  user-select: none; /* prevents text selection */
 }
 .todolist-btncontainer {
   display: flex;
   gap: 5px;
-  margin-left: 30px;
+  /* margin-left: 10px; */
 }
 .todolist-btncontainer button {
-  height: 30px;
+  margin-left: 8px;
+}
+.todolist-btncontainer .editBtn::before {
+  width: 27px;
+  height: 27px;
+  background-image: url('./lib/pen.png');
+}
+.todolist-btncontainer .deleteBtn::before {
+  width: 27px;
+  height: 27px;
+  background-image: url('./lib/bin.png');
 }
 .to-do-enter-field {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.to-do-enter-field input{
+  min-width: 75%;
 }
 .to-do-enter-field button {
   margin-left: 10px;
-  height: 30px;
+  height: 45px;
+  width: 25%;
 }
 
 .workTimer,
@@ -225,7 +283,7 @@ input {
   padding: 20px 10px;
 
   width: 200px; 
-  font-size: 50px;
+  font-size: 3.5rem;
   border-radius: 10px;
   box-shadow: 1px 2px rgba(0,0,0,0.5);
 
@@ -275,13 +333,18 @@ input {
 }
 .btnContainer .main {
   margin-bottom: 20px;
-  width: 110px;
-  aspect-ratio: 1 / 1;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   font-size: 1.4rem;
 }
+.btnContainer .main::before {
+  background-image: url('./lib/play-button.png');
+  width: 50px;
+  height: 50px;
+}
 .resetBtn {
-  height: 30px;
+  width: 60px;
   font-size: 0.8rem;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }

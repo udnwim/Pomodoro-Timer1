@@ -334,13 +334,13 @@ resetBtns.forEach((btn, index) => {
 })
 
 //reset button (accumulated study time)
-const resetBtnTotal = document.querySelector('.total-productive-time-wrapper button')
-resetBtnTotal.addEventListener('click', () => {
-  const totalTime = document.querySelectorAll('.total-productive-time-wrapper span')
-  for (let i = 0; i < totalTime.length; i++) {
-    totalTime[i].textContent = '00'
-  }
-})
+// const resetBtnTotal = document.querySelector('.total-productive-time-wrapper button')
+// resetBtnTotal.addEventListener('click', () => {
+//   const totalTime = document.querySelectorAll('.total-productive-time-wrapper span')
+//   for (let i = 0; i < totalTime.length; i++) {
+//     totalTime[i].textContent = '00'
+//   }
+// })
 
 // a switch for toggling different color theme (day/night)
 // const themeToggle = document.querySelector('.switchWrapper .slider')
@@ -422,11 +422,11 @@ function renderToDo() {
           <button 
             data-id=${index + 1} 
             class="editBtn"
-          >Edit</button>
+          ></button>
           <button 
             data-id=${index + 1} 
             class="deleteBtn"
-          >Delete</button>
+          ></button>
         </div>
       </li>
     `
@@ -462,7 +462,8 @@ toDoList.addEventListener('click', (e) => {
 toDoList.addEventListener('click', (e) => {
   const {tagName, dataset, textContent} = e.target
   // console.log(tagName)
-  if (tagName === 'BUTTON' && textContent === 'Delete') {
+  if (tagName === 'BUTTON' && 
+    textContent === 'Delete') {
     const itemID = document.getElementById(`item${dataset.id}`)
     toDoItems.splice(itemID, 1)
     renderToDo()
@@ -501,5 +502,9 @@ const sideMenuBtn = document.querySelector('.side-menu-btn')
 const sideMenu = document.querySelector('.side-menu')
 console.log(sideMenu)
 sideMenuBtn.addEventListener('click', () => {
-  sideMenu.classList.add('left-slide')
+  if (sideMenu.classList.contains('active')) {
+    sideMenu.classList.remove('active')
+  } else {
+    sideMenu.classList.add('active')
+  }
 })
