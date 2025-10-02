@@ -72,6 +72,12 @@ input {
   font-size: 1rem;
   text-indent: 2px;
 }
+span[contenteditable='true'] {
+  display: inline-block;
+  height: 28px;
+  line-height: 28px;
+  white-space: nowrap; /* keep on one line */
+}
 
 .side-menu {
   position: fixed;

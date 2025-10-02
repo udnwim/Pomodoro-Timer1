@@ -460,15 +460,16 @@ toDoList.addEventListener('click', (e) => {
 
 //button clicking event: delete items from to do list/edit to do list
 toDoList.addEventListener('click', (e) => {
-  const {tagName, dataset, textContent} = e.target
-  // console.log(tagName)
+  const {tagName, dataset, classList} = e.target
+  console.log(e.target.classList)
   if (tagName === 'BUTTON' && 
-    textContent === 'Delete') {
+    classList.contains('deleteBtn')) {
     const itemID = document.getElementById(`item${dataset.id}`)
     toDoItems.splice(itemID, 1)
     renderToDo()
   }
-  if (tagName === 'BUTTON' && textContent === 'Edit') {
+  if (tagName === 'BUTTON' && 
+    classList.contains('editBtn')) {
     const itemID = document.querySelector(`#item${dataset.id} span`)
     // console.log(itemID)
     itemID.contentEditable = 'true'
