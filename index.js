@@ -172,10 +172,10 @@ function changeBtnText() {
 
 //button to switch to a different timer
 const btnTimerToggle = document.querySelector('.toggle-btn')
-btnTimerToggle.addEventListener('click', () => {
-  switchTimerVisibility()
-  changeBtnText()
-})
+// btnTimerToggle.addEventListener('click', () => {
+//   switchTimerVisibility()
+//   changeBtnText()
+// })
 
 // modify break time in the input box
 // const breakTimeLabel = document.querySelector('.breakTimeLabel')

@@ -23,8 +23,8 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  margin-top: 50px;
   position: relative;
-  height: 100vh;
   /* margin-top: 60px; */
 
   /* font-size: 1.1rem; */
@@ -83,17 +83,17 @@ span[contenteditable='true'] {
   position: fixed;
   top: 0;
   right: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: var(--green);
+  width: 100%;
+  height: 100%;
+  background-color: var(--nude);
   z-index: 1000;
   transform: translateX(100vw);
   transition: 0.3s ease-in-out;
 }
 .side-menu-btn {
   position: fixed;
-  top: 5px;
-  right: 5px;
+  top: 4px;
+  right: 8px;
   z-index: 1001;
   width: 45px;
   height: 45px;
@@ -108,10 +108,10 @@ span[contenteditable='true'] {
 }
 
 .active {
-  right: 100vw;
+  right: 100%;
 }
 
-.switchWrapper {
+/* .switchWrapper {
   margin: 10px;
   padding: 0;
   position: absolute;
@@ -139,7 +139,7 @@ span[contenteditable='true'] {
   border: 2px solid gray;
   background-color: #fff;
   transition: all 0.2s ease-in-out;
-}
+} */
 .nightMode {
   transform: translateX(25px);
 }
@@ -151,48 +151,60 @@ span[contenteditable='true'] {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin: 20px auto;
+  margin: 0 auto;
   max-width: 70vw;
 }
-/* .timerWrapper {
-  margin: 0 50px;
-} */
+.timerWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
 
 .quoteContainer {
   display: flex;
-  justify-content: center;
-  /* align-items: center; */
-  margin: 20px 0;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 10px;
   /* position: relative; */
 
-  /* font-size: 20px; */
+  font-size: 1.3rem;
   cursor: pointer;
 }
-.quote, .author {
+.quote {
+  font-weight: 550;
+}
+.author {
+  margin-top: 5px;
+  font-size: 1rem;
   /* max-width: 100%; */
 }
 .total-productive-time-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* position: absolute; */
-  /* top: 0; */
-  width: 100vw;
-  height: 5%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 53px;
   background-color: var(--pink);
+  font-size: 1.1rem;
 }
 .total-productive-time-wrapper button {
   margin-left: 10px;
-  height: 70%;
+  height: 60%;
+  width: 60px;
 }
 
 .guide {
   display: flex;
-  margin: 50px 0;
+  margin-bottom: 20px;
   justify-content: center;
   /* max-width: 100%; */
 
-  /* font-size: 25px; */
+  font-size: 1.4rem;
 }
 
 .timer-toggle-container {
@@ -209,7 +221,7 @@ span[contenteditable='true'] {
 }
 
 .to-do-list-container {
-  margin: 20px 0;
+  margin: 20px 40px;
   padding: 10px 20px;
   border: 2px dashed gray;
   border-radius: 10px;
@@ -344,11 +356,11 @@ span[contenteditable='true'] {
   border-radius: 50%;
   font-size: 1.4rem;
 }
-.btnContainer .main::before {
+/* .btnContainer .main::before {
   background-image: url('./lib/play-button.png');
   width: 50px;
   height: 50px;
-}
+} */
 .resetBtn {
   width: 60px;
   font-size: 0.8rem;
