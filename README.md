@@ -1,3 +1,2 @@
 # Pomodoro-Timer
-use this for productivity
-[Check out live demo here](https://udnwim.github.io/Pomodoro-Timer1/)
+[Check out the project here](https://udnwim.github.io/Pomodoro-Timer1/)
