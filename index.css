@@ -175,10 +175,10 @@ span[contenteditable='true'] {
   /* position: relative; */
 
   font-size: 1.3rem;
-  cursor: pointer;
 }
 .quote {
   font-weight: 550;
+  cursor: pointer;
 }
 .author {
   margin-top: 5px;
@@ -216,11 +216,25 @@ span[contenteditable='true'] {
 .timer-toggle-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.timer-toggle-container span {
+  font-size: 1.2rem;
 }
 
 .timer-toggle-container button {
-  width: 200px;
+  margin-left: 20px;
+  padding: 0 35px;
+  /* width: 60px; */
 }
+
+.timer-toggle-container input {
+  margin: 0 5px;
+  max-height: 30px;
+  max-width: 30px;
+}
+
 
 .hidden {
   visibility: hidden;

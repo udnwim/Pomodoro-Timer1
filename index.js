@@ -509,3 +509,10 @@ sideMenuBtn.addEventListener('click', () => {
     sideMenu.classList.add('active')
   }
 })
+
+//break button: when clicked, reset the current timer and start counting down for the break
+// timer-toggle-container input: high light text on focus
+const breakBtn = document.querySelector('.timer-toggle-container button')
+breakBtn.addEventListener('click', () => {
+  console.log(1)
+})
