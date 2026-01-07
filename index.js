@@ -52,10 +52,12 @@ function tick(btn, index) {
       clearInterval(timerID)
       isPause = true
       btn.textContent = 'STOP'
+
       // when time is up, display the following text according to the visibility of timer
-      const displayW = getComputedStyle(timerW).display
-      displayW === 'flex' ? guide.textContent = "Good work! Let's stop and take a break!" : guide.textContent = "Time is up! Let's get productive!"
-      btnTimerToggle.classList.add('hidden')
+      // const displayW = getComputedStyle(timerW).display
+      // displayW === 'flex' ? guide.textContent = "Good work! Let's stop and take a break!" : guide.textContent = "Time is up! Let's get productive!"
+      // btnTimerToggle.classList.add('hidden')
+
       const toFlash = document.querySelector(`#c${index + 1}`)
       flashID = setInterval(() => {
         toFlash.style.opacity = (toFlash.style.opacity === "1") ? "0" : "1" 
@@ -77,7 +79,7 @@ function reset(index, switchBoolean) {
   }
   
   const displayW = getComputedStyle(timerW).display
-  btnTimerToggle.classList.remove('hidden')
+  // btnTimerToggle.classList.remove('hidden')
   
   modifyHTML(`#s${index + 1}`, 'START')
   timeUpAlarm.currentTime = 0
@@ -170,8 +172,8 @@ function changeBtnText() {
 
 }
 
-//button to switch to a different timer
-const btnTimerToggle = document.querySelector('.toggle-btn')
+//the "Confirm" button that switch current timer to the break timer
+const btnTimerToggle = document.querySelector('.switch-timer-btn')
 // btnTimerToggle.addEventListener('click', () => {
 //   switchTimerVisibility()
 //   changeBtnText()
