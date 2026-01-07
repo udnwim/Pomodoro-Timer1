@@ -232,7 +232,7 @@ span[contenteditable='true'] {
   font-size: 1.2rem;
 }
 
-.timer-toggle-container button {
+.timer-toggle-container .switch-timer-btn {
   margin-left: 20px;
   padding: 0 35px;
   /* width: 60px; */

@@ -172,12 +172,30 @@ function changeBtnText() {
 
 }
 
-//the "Confirm" button that switch current timer to the break timer
+//the "Confirm" button 
+//when clicked, reset the study timer, hide the confirm button, hide the edit area text, display the break timer, and start counting down
 const btnTimerToggle = document.querySelector('.switch-timer-btn')
-// btnTimerToggle.addEventListener('click', () => {
-//   switchTimerVisibility()
-//   changeBtnText()
-// })
+btnTimerToggle.addEventListener('click', () => {
+  const getInput = document.querySelector('.timer-toggle-input').value
+  if (!getInput) return
+
+  btnTimerToggle.style.display = 'none'
+  document.querySelector('.timer-toggle-container').style.display = 'none'
+
+  reset(0, false)
+
+  timerRecord[2] = getInput.padStart(2, '0')
+  timerRecord[3] = '00'
+  document.querySelector('#c2 .min').textContent = getInput.padStart(2, '0')
+  document.querySelector('#c2 .sec').textContent = '00'
+
+  switchTimerVisibility()
+
+  // start counting
+  const btn = document.querySelector('#s2')
+  btn.textContent = 'PAUSE'
+  tick(btn, 1)
+})
 
 // modify break time in the input box
 // const breakTimeLabel = document.querySelector('.breakTimeLabel')
@@ -191,6 +209,7 @@ const btnTimerToggle = document.querySelector('.switch-timer-btn')
 //   timerRecord[3] = sec
 //   breakTimeLabel.textContent = `Break time: ${min}:${sec}`
 // })
+
 //modify the timer in the counting box
 workTimer.forEach((timer, index) => {
   timer.addEventListener('click', () => {
@@ -253,7 +272,7 @@ workTimer.forEach((timer, index) => {
 //[to do]if no action in 5 seconds, play an animation of mouse clicking the timer
 const mouseIcon = new Image('./lib/left-click')
 
-// start|pause timer
+// variables to start and pause timer
 const mainBtns = document.querySelectorAll('.main')
 const resetBtns = document.querySelectorAll('.resetBtn')
 let isPause = true
@@ -275,11 +294,13 @@ function switchTimerVisibility() {
   } else {
     timerW.style.display = 'flex'
     timerR.style.display = 'none'
+    document.querySelector('.switch-timer-btn').style.display = 'flex'
+    document.querySelector('.timer-toggle-container').style.display = 'flex'
     // console.log("switched to work timer")
   }
 }
 
-//start/pause/stop button click event listener
+//start,pause,stop - button event listener
 mainBtns.forEach((btn, index) => {
   btn.addEventListener('click', () => {
     //clicking effect
@@ -372,40 +393,39 @@ resetBtns.forEach((btn, index) => {
 // })
 
 //To do list: enter your goal(s) and display them as list items
-let toDoItems = ['Study Javascript']
-const memoInput = document.querySelector('#to-do-input')
-const memoBtn = document.querySelector('.to-do-enter-field button')
+let toDoItems = [{
+  task: 'Study Javascript',
+  isFinished: false,
+}]
+const todoInput = document.querySelector('#to-do-input')
+const todoBtn = document.querySelector('.to-do-enter-field button')
 const toDoList = document.querySelector('.to-do-list')
 // button clicking event: add todo item to the list
-memoBtn.addEventListener('click', (e) => {
+todoBtn.addEventListener('click', (e) => {
   e.preventDefault()
-  if (!memoInput.value) return
+  if (!todoInput.value) return
 
-  toDoItems.push(memoInput.value)
+  toDoItems.push({task: todoInput.value, isFinished: false})
+  console.log(toDoItems)
   renderToDo()
-  memoInput.value = ''
-  memoInput.focus()
+  todoInput.value = ''
+  todoInput.focus()
 })
-// if user press "enter" in the to-do input box, add content in the to do list
-memoInput.addEventListener('keyup', (e) => {
+// if user press "enter" in the to-do input box, add content to the to do list
+todoInput.addEventListener('keyup', (e) => {
   if (e.key === 'Enter') {
-    if (!memoInput.value) return
+    if (!todoInput.value) return
 
-    toDoItems.push(memoInput.value)
+    toDoItems.push({task: todoInput.value, isFinished: false})
     renderToDo()
-    memoInput.value = ''
-    memoInput.focus()
+    todoInput.value = ''
+    todoInput.focus()
   }
 })
 
-//hightlight text in the to-do-list input when focus
-// memoInput.addEventListener('focus', () => {
-//   memoInput.select()
-// })
-
-// display everything in the toDoItems array
-const emptyHappyFace = './lib/emptyHappyFace.png'
-const filledHappyFace = './lib/filledHappyFace.png'
+// display everything from the toDoItems array
+const uncheckedBox = './lib/checkbox-uncheck.png'
+const checkedBox = './lib/checkbox-check.png'
 
 function renderToDo() {
   const displayList = document.querySelector('.to-do-list')
@@ -415,10 +435,10 @@ function renderToDo() {
         <div id=checkbox${index + 1}
         >
           <img 
-            src=${emptyHappyFace}  class=todo-checkbox
+            src=${item.isFinished ? checkedBox : uncheckedBox}  class=todo-checkbox
             data-id=${index + 1}
           ></img>
-          <span data-id=${index + 1}>${item}</span>
+          <span data-id=${index + 1}>${item.task}</span>
         </div>
         <div class='todolist-btncontainer'>
           <button 
@@ -443,17 +463,23 @@ const checkbox = document.querySelector('.todo-checkbox-container')
 const rewardSound = new Audio('./lib/task-finished.mp3')
 // when the to do list is clicked, find which item in the list is clicked and checkoff this item
 toDoList.addEventListener('click', (e) => {
+  console.log(e.target.nodeName)
   if (e.target && e.target.nodeName === 'IMG' || e.target.nodeName === 'SPAN' ) {
     if (e.target.contentEditable === 'false' || e.target.contentEditable === 'inherit') {
       const currentItem = document.getElementById(`checkbox${e.target.dataset.id}`)
-      btnEffect(currentItem)
       const currentImg = currentItem.children[0].src
-      if (currentImg.includes('emptyHappyFace.png')) {
+      btnEffect(currentItem)
+
+      const itemIndex = e.target.dataset.id - 1
+      if (currentImg.includes('uncheck.png')) {
+        toDoItems[itemIndex].isFinished = true
+        
         rewardSound.currentTime = 0
         rewardSound.play()
-        currentItem.children[0].src = filledHappyFace
+        currentItem.children[0].src = checkedBox
       } else {
-        currentItem.children[0].src = emptyHappyFace
+        toDoItems[itemIndex].isFinished = false
+        currentItem.children[0].src = uncheckedBox
       }
     }
   }
@@ -463,11 +489,11 @@ toDoList.addEventListener('click', (e) => {
 //button clicking event: delete items from to do list/edit to do list
 toDoList.addEventListener('click', (e) => {
   const {tagName, dataset, classList} = e.target
-  console.log(e.target.classList)
+  // console.log(e.target.classList)
   if (tagName === 'BUTTON' && 
     classList.contains('deleteBtn')) {
     const itemID = document.getElementById(`item${dataset.id}`)
-    toDoItems.splice(itemID, 1)
+    toDoItems.splice(dataset.id - 1, 1)
     renderToDo()
   }
   if (tagName === 'BUTTON' && 
@@ -487,7 +513,7 @@ toDoList.addEventListener('blur', (e) => {
   }
 }, true)
 
-// if 'enter' is pressed when editing list item, 
+// if 'enter' is pressed when editing list item, update the to do list array
 toDoList.addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     e.preventDefault()
@@ -497,7 +523,7 @@ toDoList.addEventListener('keydown', (e) => {
 
 function updateToDoArray(element) {
   const index = element.dataset.id - 1
-  toDoItems[index] = element.textContent
+  toDoItems[index].task = element.textContent
   element.contentEditable = 'false'
 }
 
@@ -510,11 +536,4 @@ sideMenuBtn.addEventListener('click', () => {
   } else {
     sideMenu.classList.add('active')
   }
-})
-
-//break button: when clicked, reset the current timer and start counting down for the break
-// timer-toggle-container input: high light text on focus
-const breakBtn = document.querySelector('.timer-toggle-container button')
-breakBtn.addEventListener('click', () => {
-  console.log(1)
 })
