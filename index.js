@@ -29,9 +29,11 @@ function modifyHTML(eleSelector, text) {
 }
 
 // pass the btn and the timer indices to this function and start counting
-// btn: there are 2 buttons correspond to two timers with the same classname; selected with queryselectAll
+// btn: array of the big round MAIN buttons(queryselectAll)
+// index: either 0 or 1
 function tick(btn, index) {
   btn.textContent = 'PAUSE'
+  console.log(btn)
   const displayMin = document.querySelector(`#c${index + 1} .min`)
   const displaySec = document.querySelector(`#c${index + 1} .sec`)
 
@@ -58,6 +60,7 @@ function tick(btn, index) {
       // displayW === 'flex' ? guide.textContent = "Good work! Let's stop and take a break!" : guide.textContent = "Time is up! Let's get productive!"
       // btnTimerToggle.classList.add('hidden')
 
+      // flash the timer when time is up
       const toFlash = document.querySelector(`#c${index + 1}`)
       flashID = setInterval(() => {
         toFlash.style.opacity = (toFlash.style.opacity === "1") ? "0" : "1" 
@@ -67,7 +70,7 @@ function tick(btn, index) {
 }
 
 //index = of the selected start/reset buttons; (index + 1) locates the id of the target element(#c1, #c2, #r1, #r2...)
-//switchBoolean: true/false; decide if switching the current displaying timer
+//switchBoolean: true/false; decide if switching the displaying timer
 function reset(index, switchBoolean) {
   if (timerID) clearInterval(timerID)
   if (flashID) {
@@ -179,22 +182,34 @@ btnTimerToggle.addEventListener('click', () => {
   const getInput = document.querySelector('.timer-toggle-input').value
   if (!getInput) return
 
-  btnTimerToggle.style.display = 'none'
-  document.querySelector('.timer-toggle-container').style.display = 'none'
+  let timerIndex
+  // index of current timer: confirm=work=1, skip=break=2
+  const inputContainer = document.querySelector('.timer-toggle-edit')
+  if (btnTimerToggle.textContent === 'Confirm') {
+    timerIndex = 1
 
-  reset(0, false)
+    btnTimerToggle.textContent = 'Skip this break'
+    inputContainer.style.display = 'none'
 
-  timerRecord[2] = getInput.padStart(2, '0')
-  timerRecord[3] = '00'
-  document.querySelector('#c2 .min').textContent = getInput.padStart(2, '0')
-  document.querySelector('#c2 .sec').textContent = '00'
+    timerRecord[2] = getInput.padStart(2, '0')
+    timerRecord[3] = '00'
+    document.querySelector('#c2 .min').textContent = getInput.padStart(2, '0')
+    document.querySelector('#c2 .sec').textContent = '00'
+  } else {
+    timerIndex = 2
 
-  switchTimerVisibility()
+    btnTimerToggle.textContent = 'Confirm'
+    inputContainer.style.display = 'block'
+  }
+
+  reset(0, true)
+  timerIndex--
+  timerIndex = timerIndex === 0 ? 1 : 0
 
   // start counting
-  const btn = document.querySelector('#s2')
-  btn.textContent = 'PAUSE'
-  tick(btn, 1)
+  const btn = document.querySelector(`#s${timerIndex}`)
+  // console.log(btn, timerIndex)
+  tick(btn, timerIndex)
 })
 
 // modify break time in the input box
@@ -406,7 +421,7 @@ todoBtn.addEventListener('click', (e) => {
   if (!todoInput.value) return
 
   toDoItems.push({task: todoInput.value, isFinished: false})
-  console.log(toDoItems)
+  // console.log(toDoItems)
   renderToDo()
   todoInput.value = ''
   todoInput.focus()
@@ -463,7 +478,7 @@ const checkbox = document.querySelector('.todo-checkbox-container')
 const rewardSound = new Audio('./lib/task-finished.mp3')
 // when the to do list is clicked, find which item in the list is clicked and checkoff this item
 toDoList.addEventListener('click', (e) => {
-  console.log(e.target.nodeName)
+  // console.log(e.target.nodeName)
   if (e.target && e.target.nodeName === 'IMG' || e.target.nodeName === 'SPAN' ) {
     if (e.target.contentEditable === 'false' || e.target.contentEditable === 'inherit') {
       const currentItem = document.getElementById(`checkbox${e.target.dataset.id}`)
@@ -529,7 +544,7 @@ function updateToDoArray(element) {
 
 const sideMenuBtn = document.querySelector('.side-menu-btn')
 const sideMenu = document.querySelector('.side-menu')
-console.log(sideMenu)
+// console.log(sideMenu)
 sideMenuBtn.addEventListener('click', () => {
   if (sideMenu.classList.contains('active')) {
     sideMenu.classList.remove('active')

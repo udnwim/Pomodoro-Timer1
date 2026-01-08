@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pomodoro Timer</title>
   <link rel="stylesheet" href="./index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
 <body class="light">
   <!-- <div class="switchWrapper light">
@@ -12,26 +15,30 @@
   </div> -->
   
   <!-- side menu -->
-  <button class="side-menu-btn"></button>
   <div class="side-menu">
   </div>
   
   <!-- top banner -->
   <div class="total-productive-time-wrapper">
+    <div class="logoContainer">
+      <img src="./lib/tomato1.png" alt="tomato-logo">
+      <span>Pomodoro Timer</span>
+    </div>
+    <button class="side-menu-btn"></button>
     <!-- <div>You've worked for: <span class="total-hour">00</span> hr <span class="total-min">00</span> min</div> -->
     <!-- <button>Reset</button> -->
-
-    <!-- inspiring quote -->
-    <div class="quoteContainer">
-      <p class="quote">To be great is to be misunderstood. </p>
-      <span class="author"> -Ralph Waldo Emerson</span>
-    </div>
   </div>
+
+  <!-- inspiring quote -->
+  <!-- <div class="quoteContainer">
+    <p class="quote">To be great is to be misunderstood. </p>
+    <span class="author"> -Ralph Waldo Emerson</span>
+  </div> -->
   
   <!-- a button to switch the timer -->
   <div class="timer-toggle-container">
     <div class="timer-toggle-edit">
-      <span>I want to take a </span>
+      <span>Skip and take a </span>
       <input type="text" class='timer-toggle-input' value="10" onfocus="this.select()">
       <span>minutes break</span>
     </div>
@@ -41,12 +48,10 @@
   <!-- timer -->
   <div class="mainArea">
     <div class="timerWrapper">
-
       <!-- guide -->
       <!-- <div class="guide">
         <span>Start the timer when you are ready ：）</span>
       </div> -->
-
 
       <!-- pink timer: work -->
       <div class="workTimer light">
