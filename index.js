@@ -33,7 +33,7 @@ function modifyHTML(eleSelector, text) {
 // index: either 0 or 1
 function tick(btn, index) {
   btn.textContent = 'PAUSE'
-  console.log(btn)
+  // console.log(btn, btn.textContent)
   const displayMin = document.querySelector(`#c${index + 1} .min`)
   const displaySec = document.querySelector(`#c${index + 1} .sec`)
 
@@ -203,27 +203,15 @@ btnTimerToggle.addEventListener('click', () => {
   }
 
   reset(0, true)
-  timerIndex--
-  timerIndex = timerIndex === 0 ? 1 : 0
+  timerIndex = timerIndex === 1 ? 2 : 1
 
-  // start counting
-  const btn = document.querySelector(`#s${timerIndex}`)
-  // console.log(btn, timerIndex)
-  tick(btn, timerIndex)
+  // start counting (if currently on break)
+  if (timerIndex === 2) {
+    const btn = document.querySelector(`#s${timerIndex}`)
+    console.log(btn, timerIndex)
+    tick(btn, timerIndex - 1)
+  }
 })
-
-// modify break time in the input box
-// const breakTimeLabel = document.querySelector('.breakTimeLabel')
-// breakTimeLabel.textContent = `Break time: ${timerRecord[2]}:${timerRecord[3]}`
-// const breakTimeInput = document.getElementById('breaktime')
-// breakTimeInput.addEventListener('change', (e) => {
-//   const time = breakTimeInput.value
-//   const min = time[0] + time[1]
-//   const sec = time[2] + time[3]
-//   timerRecord[2] = min
-//   timerRecord[3] = sec
-//   breakTimeLabel.textContent = `Break time: ${min}:${sec}`
-// })
 
 //modify the timer in the counting box
 workTimer.forEach((timer, index) => {
@@ -305,12 +293,14 @@ function switchTimerVisibility() {
   if (displayW === 'flex') {
     timerW.style.display = 'none'
     timerR.style.display = 'flex'
+    return 2
     // console.log("switched to relax timer")
   } else {
     timerW.style.display = 'flex'
     timerR.style.display = 'none'
     document.querySelector('.switch-timer-btn').style.display = 'flex'
     document.querySelector('.timer-toggle-container').style.display = 'flex'
+    return 1
     // console.log("switched to work timer")
   }
 }
@@ -324,16 +314,16 @@ mainBtns.forEach((btn, index) => {
     if (btn.textContent === 'STOP') {
       reset(index, false)
       
-      //when the time is up and the stop button is hit, check which timer is displaying and switch visibility
-      switchTimerVisibility()
-      changeTimer()
+      //when the timer switchs, get the id from the function
+      const timerID = switchTimerVisibility()
 
-      //if the break timer is displaying, update the total productive time
-      const displayR = getComputedStyle(timerR).display
-      // console.log(displayR)
-      if (displayR === 'flex') {
-        updateTotalProductive(timerRecord)
-      }
+      // updateTotalProductive(timerRecord)
+
+    //  when timer n is displaying, display the corresponding text block
+      const textToDisplay = document.getElementById(`timer-toggle-text${timerID}`)
+      const textToHide = document.getElementById(`timer-toggle-text${timerID === 1 ? 2 : 1}`)
+      textToDisplay.style.display = 'flex'
+      textToHide.style.display = 'none'
 
       //automatically start the relaxTimer
       // if (getComputedStyle(timerR).display === 'flex') {
@@ -409,9 +399,13 @@ resetBtns.forEach((btn, index) => {
 
 //To do list: enter your goal(s) and display them as list items
 let toDoItems = [{
-  task: 'Study Javascript',
-  isFinished: false,
-}]
+    task: 'Study Javascript',
+    isFinished: false,
+  }, {
+    task: 'StudyJavascriptStudyJavascriptStudyJavascriptStudyJavascript',
+    isFinished: false,
+  }
+]
 const todoInput = document.querySelector('#to-do-input')
 const todoBtn = document.querySelector('.to-do-enter-field button')
 const toDoList = document.querySelector('.to-do-list')
@@ -438,36 +432,52 @@ todoInput.addEventListener('keyup', (e) => {
   }
 })
 
-// display everything from the toDoItems array
-const uncheckedBox = './lib/checkbox-uncheck.png'
-const checkedBox = './lib/checkbox-check.png'
-
+// render items from toDoItems array
 function renderToDo() {
   const displayList = document.querySelector('.to-do-list')
   const itemToRender = toDoItems.map((item, index) => {
     return `
-      <li id=item${index + 1}>
-        <div id=checkbox${index + 1}
-        >
-          <img 
-            src=${item.isFinished ? checkedBox : uncheckedBox}  class=todo-checkbox
-            data-id=${index + 1}
-          ></img>
-          <span data-id=${index + 1}>${item.task}</span>
-        </div>
+      <li id='item${index + 1}'>
+        <span data-id='${index + 1}' class='unchecked'>${item.task}</span>
         <div class='todolist-btncontainer'>
           <button 
-            data-id=${index + 1} 
+            data-id='${index + 1}'
             class="editBtn"
           ></button>
           <button 
-            data-id=${index + 1} 
+            data-id='${index + 1}'
             class="deleteBtn"
           ></button>
         </div>
       </li>
     `
   }).join('')
+
+  // old task check off logic
+  // const itemToRender = toDoItems.map((item, index) => {
+  //   return `
+  //     <li id=item${index + 1}>
+  //       <div id=checkbox${index + 1}
+  //       >
+  //         <img 
+  //           src=${item.isFinished ? checkedBox : uncheckedBox}  class=todo-checkbox
+  //           data-id=${index + 1}
+  //         ></img>
+  //         <span data-id=${index + 1}>${item.task}</span>
+  //       </div>
+  //       <div class='todolist-btncontainer'>
+  //         <button 
+  //           data-id=${index + 1} 
+  //           class="editBtn"
+  //         ></button>
+  //         <button 
+  //           data-id=${index + 1} 
+  //           class="deleteBtn"
+  //         ></button>
+  //       </div>
+  //     </li>
+  //   `
+  // }).join('')
   displayList.innerHTML = itemToRender
 }
 renderToDo()
@@ -479,23 +489,20 @@ const rewardSound = new Audio('./lib/task-finished.mp3')
 // when the to do list is clicked, find which item in the list is clicked and checkoff this item
 toDoList.addEventListener('click', (e) => {
   // console.log(e.target.nodeName)
-  if (e.target && e.target.nodeName === 'IMG' || e.target.nodeName === 'SPAN' ) {
+  if (e.target && e.target.nodeName === 'SPAN' ) {
+    // if list item is currently not being edited
     if (e.target.contentEditable === 'false' || e.target.contentEditable === 'inherit') {
-      const currentItem = document.getElementById(`checkbox${e.target.dataset.id}`)
-      const currentImg = currentItem.children[0].src
+      const currentItem = document.querySelector(`#item${e.target.dataset.id} span`)
       btnEffect(currentItem)
 
-      const itemIndex = e.target.dataset.id - 1
-      if (currentImg.includes('uncheck.png')) {
-        toDoItems[itemIndex].isFinished = true
-        
+      const checkStatus = currentItem.classList
+      if (checkStatus.contains('unchecked')) {
         rewardSound.currentTime = 0
         rewardSound.play()
-        currentItem.children[0].src = checkedBox
-      } else {
-        toDoItems[itemIndex].isFinished = false
-        currentItem.children[0].src = uncheckedBox
+        // move the finished task to the bottom
       }
+      checkStatus.toggle('unchecked')
+      checkStatus.toggle('checked')
     }
   }
 })

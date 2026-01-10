@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pomodoro Timer</title>
   <link rel="stylesheet" href="./index.css">
+  <link rel="icon" href="./lib/tomato1.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
@@ -37,12 +38,17 @@
   
   <!-- a button to switch the timer -->
   <div class="timer-toggle-container">
-    <div class="timer-toggle-edit">
-      <span>Skip and take a </span>
-      <input type="text" class='timer-toggle-input' value="10" onfocus="this.select()">
-      <span>minutes break</span>
+    <div id='timer-toggle-text1' class=" working">
+      <div class="timer-toggle-edit">
+        <span>Skip and take a </span>
+        <input type="text" class='timer-toggle-input' value="10" onfocus="this.select()">
+        <span>minutes break</span>
+      </div>
+      <button class="switch-timer-btn">Confirm</button>
     </div>
-    <button class="switch-timer-btn">Confirm</button>
+    <div id='timer-toggle-text2' class="relaxing">
+      <span>Good work! Let's take a break!</span>
+    </div>
   </div>
   
   <!-- timer -->
@@ -82,14 +88,19 @@
 
     <!-- to do list -->
     <div class="to-do-list-container">
-      <label for="to-do-list">To do list</label>
-      <ul class="to-do-list" id="to-do-list"></ul>
+      <h2>To do list</h2>
+      <ul class="to-do-list"></ul>
       <div class="to-do-enter-field">
         <input type="text" id='to-do-input' placeholder="What is your goal today?">
         <button class="add-btn">Add</button>
       </div>
     </div>
+
   </div>
+  <footer>
+    <p>&copy; 2025-2026 Hui K. All rights reserved.</p>
+  </footer>
+
 
   <script src="./index.js"></script>
 </body>
