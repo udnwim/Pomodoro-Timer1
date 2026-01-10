@@ -323,8 +323,7 @@ span[contenteditable='true'] {
   margin-left: 8px;
   padding-right: 100px;
 
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  cursor: pointer;
   user-select: none; /* prevents text selection */
 }
 .to-do-list span::before {
@@ -336,6 +335,7 @@ span[contenteditable='true'] {
   height: 1.8rem;
 
   transform: translateY(-50%);
+  cursor: pointer;
   background-image: url(./lib/checkbox-uncheck.png);
 }
 .to-do-list span.checked {

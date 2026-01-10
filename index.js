@@ -398,14 +398,20 @@ resetBtns.forEach((btn, index) => {
 // })
 
 //To do list: enter your goal(s) and display them as list items
-let toDoItems = [{
-    task: 'Study Javascript',
-    isFinished: false,
-  }, {
-    task: 'StudyJavascriptStudyJavascriptStudyJavascriptStudyJavascript',
-    isFinished: false,
-  }
-]
+let toDoItems
+if (localStorage.getItem('data')) {
+  toDoItems = JSON.parse(localStorage.getItem('data'))
+} else {
+  toDoItems = [{
+      task: 'Study Javascript',
+      isFinished: false,
+    }, {
+      task: 'StudyJavascriptStudyJavascriptStudyJavascriptStudyJavascript',
+      isFinished: false,
+    }
+  ]
+}
+
 const todoInput = document.querySelector('#to-do-input')
 const todoBtn = document.querySelector('.to-do-enter-field button')
 const toDoList = document.querySelector('.to-do-list')
@@ -432,7 +438,11 @@ todoInput.addEventListener('keyup', (e) => {
   }
 })
 
-// render items from toDoItems array
+function saveData() {
+  localStorage.setItem('data', JSON.stringify(toDoItems))
+}
+
+// render items from toDoItems array; save data locally
 function renderToDo() {
   const displayList = document.querySelector('.to-do-list')
   const itemToRender = toDoItems.map((item, index) => {
@@ -479,6 +489,8 @@ function renderToDo() {
   //   `
   // }).join('')
   displayList.innerHTML = itemToRender
+
+  saveData()
 }
 renderToDo()
 
