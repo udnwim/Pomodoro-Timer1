@@ -157,59 +157,58 @@ workTimer.forEach((timer, index) => {
 })
 
 //change the text on the button based on which timer is currently displaying
-function changeBtnText() {
-  let timerIndex
-  btnTimerToggle.classList.remove('hidden')
-  const displayW = getComputedStyle(timerW).display
-  if (displayW === 'flex') {
-    btnTimerToggle.textContent = 'I want to take a break'
-    timerIndex = 0
-  } else {
-    btnTimerToggle.textContent = 'I am ready to work!'
-    timerIndex = 1
-  }
-  // stop the current timer
-  reset(timerIndex, false)
+// function changeBtnText() {
+//   let timerIndex
+//   btnTimerToggle.classList.remove('hidden')
+//   const displayW = getComputedStyle(timerW).display
+//   if (displayW === 'flex') {
+//     btnTimerToggle.textContent = 'I want to take a break'
+//     timerIndex = 0
+//   } else {
+//     btnTimerToggle.textContent = 'I am ready to work!'
+//     timerIndex = 1
+//   }
+//   // stop the current timer
+//   reset(timerIndex, false)
 
-  // btnTimerToggle.textContent = displayW === 'flex' ? 'I want to take a break' : 'I am ready to work!'
+//   // btnTimerToggle.textContent = displayW === 'flex' ? 'I want to take a break' : 'I am ready to work!'
 
-}
+// }
 
 //the "Confirm" button 
 //when clicked, reset the study timer, hide the confirm button, hide the edit area text, display the break timer, and start counting down
-const btnTimerToggle = document.querySelector('.switch-timer-btn')
-btnTimerToggle.addEventListener('click', () => {
+function toggleConfirmBtn() {
+  const confirmBtn = document.querySelector('.switch-timer-btn')
+  const inputContainer = document.querySelector('.timer-toggle-edit')
+  if (confirmBtn.textContent === 'Confirm') {
+    confirmBtn.textContent = 'Skip this break'
+    inputContainer.style.display = 'none'
+    return true
+  } else {
+    confirmBtn.textContent = 'Confirm'
+    inputContainer.style.display = 'block'
+    return false
+  }
+}
+
+const confirmBtn = document.querySelector('.switch-timer-btn')
+confirmBtn.addEventListener('click', () => {
   const getInput = document.querySelector('.timer-toggle-input').value
   if (!getInput) return
 
-  let timerIndex
-  // index of current timer: confirm=work=1, skip=break=2
-  const inputContainer = document.querySelector('.timer-toggle-edit')
-  if (btnTimerToggle.textContent === 'Confirm') {
-    timerIndex = 1
+  const confirmIsDisplayed = toggleConfirmBtn()
 
-    btnTimerToggle.textContent = 'Skip this break'
-    inputContainer.style.display = 'none'
-
+  if (confirmIsDisplayed) {
     timerRecord[2] = getInput.padStart(2, '0')
     timerRecord[3] = '00'
     document.querySelector('#c2 .min').textContent = getInput.padStart(2, '0')
     document.querySelector('#c2 .sec').textContent = '00'
+
+    reset(0, true)
+    const mainBtn = document.querySelector('#s2')
+    tick(mainBtn, 1)
   } else {
-    timerIndex = 2
-
-    btnTimerToggle.textContent = 'Confirm'
-    inputContainer.style.display = 'block'
-  }
-
-  reset(0, true)
-  timerIndex = timerIndex === 1 ? 2 : 1
-
-  // start counting (if currently on break)
-  if (timerIndex === 2) {
-    const btn = document.querySelector(`#s${timerIndex}`)
-    console.log(btn, timerIndex)
-    tick(btn, timerIndex - 1)
+    reset(0, true)
   }
 })
 
@@ -280,14 +279,14 @@ const mainBtns = document.querySelectorAll('.main')
 const resetBtns = document.querySelectorAll('.resetBtn')
 let isPause = true
 let timerID, flashID
+// ^^when the button that displays 'PAUSE'(isPause=true) is clicked, get the current displaying time and start the count down; otherwise reverse the flag and stop the timer
 
-// when the round button for displaying 'STRAT' or 'PAUSE' is hit, and the timer is not running(isPause=true), get the current display number and start the count down; otherwise reverse the flag and stop the timer
 const guide = document.querySelector('.guide span')
 const timerW = document.querySelector('.workTimer')
 const timerR = document.querySelector('.relaxTimer')
 const timeUpAlarm = new Audio('./lib/ambient-piano-music-1.wav')
 
-//when the time is up and the stop button is hit, check which timer is displaying and switch visibility
+//check which timer is displaying and switch visibility
 function switchTimerVisibility() {
   const displayW = getComputedStyle(timerW).display
   if (displayW === 'flex') {
@@ -314,7 +313,7 @@ mainBtns.forEach((btn, index) => {
     if (btn.textContent === 'STOP') {
       reset(index, false)
       
-      //when the timer switchs, get the id from the function
+      //this function returns the timer id after switching
       const timerID = switchTimerVisibility()
 
       // updateTotalProductive(timerRecord)
@@ -324,6 +323,11 @@ mainBtns.forEach((btn, index) => {
       const textToHide = document.getElementById(`timer-toggle-text${timerID === 1 ? 2 : 1}`)
       textToDisplay.style.display = 'flex'
       textToHide.style.display = 'none'
+
+      const inputContainer = document.querySelector('.timer-toggle-edit')
+      if (timerID === 1 && inputContainer.style.display === 'none') {
+        toggleConfirmBtn()
+      }
 
       //automatically start the relaxTimer
       // if (getComputedStyle(timerR).display === 'flex') {
@@ -351,7 +355,7 @@ btnsAll.forEach(btn => {
   })
 })
 
-//reset button (timer)
+//reset button for timer
 resetBtns.forEach((btn, index) => {
   btn.addEventListener('click', () => {
     const displayW = getComputedStyle(timerW).display
@@ -370,34 +374,8 @@ resetBtns.forEach((btn, index) => {
 //   }
 // })
 
-// a switch for toggling different color theme (day/night)
-// const themeToggle = document.querySelector('.switchWrapper .slider')
-// const switchContainer = document.querySelector('.switchWrapper')
-// const body = document.body
-// const timers = document.querySelectorAll('.workTimer, .relaxTimer')
-// let isDarkMode = false
-// switchContainer.addEventListener('click', () => {
-//   console.log('clicked')
-//   if (isDarkMode) {
-//     themeToggle.style.transform = "translateX(0px)"
-//     body.classList.replace('dark', 'light')
-//     switchContainer.classList.replace('dark', 'light')
-//     timers.forEach((timer) => {
-//       timer.classList.replace('dark', 'light')
-//     })
-//     isDarkMode = false
-//   } else {
-//     themeToggle.style.transform = "translateX(20px)"
-//     body.classList.replace('light', 'dark')
-//     switchContainer.classList.replace('light', 'dark')
-//     timers.forEach((timer) => {
-//       timer.classList.replace('light', 'dark')
-//     })
-//     isDarkMode = true
-//   }
-// })
 
-//To do list: enter your goal(s) and display them as list items
+//To do list
 let toDoItems
 if (localStorage.getItem('data')) {
   toDoItems = JSON.parse(localStorage.getItem('data'))
@@ -415,26 +393,26 @@ if (localStorage.getItem('data')) {
 const todoInput = document.querySelector('#to-do-input')
 const todoBtn = document.querySelector('.to-do-enter-field button')
 const toDoList = document.querySelector('.to-do-list')
-// button clicking event: add todo item to the list
+
+function getTodoInput(element, arrayToUpdate) {
+  const trimInput = element.value.trim()
+  if (!trimInput) return
+
+  arrayToUpdate.push({task: trimInput, isFinished: false})
+  renderToDo()
+  element.value = ''
+  element.focus()
+}
+
+// Add input to the list: click button
 todoBtn.addEventListener('click', (e) => {
   e.preventDefault()
-  if (!todoInput.value) return
-
-  toDoItems.push({task: todoInput.value, isFinished: false})
-  // console.log(toDoItems)
-  renderToDo()
-  todoInput.value = ''
-  todoInput.focus()
+  getTodoInput(todoInput, toDoItems)
 })
-// if user press "enter" in the to-do input box, add content to the to do list
+// Add input to the list: keyboard enter
 todoInput.addEventListener('keyup', (e) => {
   if (e.key === 'Enter') {
-    if (!todoInput.value) return
-
-    toDoItems.push({task: todoInput.value, isFinished: false})
-    renderToDo()
-    todoInput.value = ''
-    todoInput.focus()
+    getTodoInput(todoInput, toDoItems)
   }
 })
 
@@ -448,7 +426,7 @@ function renderToDo() {
   const itemToRender = toDoItems.map((item, index) => {
     return `
       <li id='item${index + 1}'>
-        <span data-id='${index + 1}' class='unchecked'>${item.task}</span>
+        <span data-id='${index + 1}'>${item.task}</span>
         <div class='todolist-btncontainer'>
           <button 
             data-id='${index + 1}'
@@ -508,17 +486,16 @@ toDoList.addEventListener('click', (e) => {
       btnEffect(currentItem)
 
       const checkStatus = currentItem.classList
-      if (checkStatus.contains('unchecked')) {
+      if (!checkStatus.contains('checked')) {
         rewardSound.currentTime = 0
         rewardSound.play()
+
         // move the finished task to the bottom
       }
-      checkStatus.toggle('unchecked')
       checkStatus.toggle('checked')
     }
   }
 })
-
 
 //button clicking event: delete items from to do list/edit to do list
 toDoList.addEventListener('click', (e) => {
@@ -565,9 +542,5 @@ const sideMenuBtn = document.querySelector('.side-menu-btn')
 const sideMenu = document.querySelector('.side-menu')
 // console.log(sideMenu)
 sideMenuBtn.addEventListener('click', () => {
-  if (sideMenu.classList.contains('active')) {
-    sideMenu.classList.remove('active')
-  } else {
-    sideMenu.classList.add('active')
-  }
+  sideMenu.classList.toggle('active')
 })
