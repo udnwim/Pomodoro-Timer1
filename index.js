@@ -383,9 +383,6 @@ if (localStorage.getItem('data')) {
   toDoItems = [{
       task: 'Study Javascript',
       isFinished: false,
-    }, {
-      task: 'StudyJavascriptStudyJavascriptStudyJavascriptStudyJavascript',
-      isFinished: false,
     }
   ]
 }
