@@ -1,113 +1,3 @@
-function highlightText(element) {
-  const range = document.createRange()
-  //select all the content inside the element vv
-  range.selectNodeContents(element)
-  const selection = window.getSelection()
-  // remove existing selections
-  selection.removeAllRanges()
-  selection.addRange(range)
-}
-
-// number: 1 to the next section, -1 to the previous
-function switchEnterSection(nodeList, index, number) {
-  const whereTo = nodeList[index + number]
-  whereTo.contentEditable = 'true'
-  whereTo.focus()
-  highlightText(whereTo)
-}
-
-//quickly select the displayed counting number
-function selectContainer(containerIndex) {
-  const displayMin = document.querySelector(`#c${containerIndex + 1} .min`)
-  const displaySec = document.querySelector(`#c${containerIndex + 1} .sec`)
-  return [displayMin, displaySec]
-}
-
-//quickly change the textContent of a selected element
-function modifyHTML(eleSelector, text) {
-  document.querySelector(eleSelector).textContent = String(text)
-}
-
-// pass the btn and the timer indices to this function and start counting
-// btn: array of the big round MAIN buttons(queryselectAll)
-// index: either 0 or 1
-function tick(btn, index) {
-  btn.textContent = 'PAUSE'
-  // console.log(btn, btn.textContent)
-  const displayMin = document.querySelector(`#c${index + 1} .min`)
-  const displaySec = document.querySelector(`#c${index + 1} .sec`)
-
-  //reference: timerRecord = ['25', '01', '05', '01']
-  // current timestamp + timer convert to ms = alarm timestamp
-  const getTime = (Number(timerRecord[index * 2]) * 60 + Number(timerRecord[index * 2 + 1])) * 1000
-  const end = Date.now() + getTime
-  timerID = setInterval(() => {
-    //sometimes timestamp we get from Date.now() can be larger than the actual time due to lagging from cpu, browser, etc..., causing the result being negative. use math.max to avoid it
-    const remainSec = Math.max(0, Math.round((end - Date.now()) / 1000))
-    const newMin = String(Math.floor(remainSec / 60)).padStart(2, '0')
-    const newSec = String(remainSec % 60).padStart(2, '0')
-    displayMin.textContent = newMin
-    displaySec.textContent = newSec
-    
-    if (remainSec === 0) {
-      timeUpAlarm.play()
-      clearInterval(timerID)
-      isPause = true
-      btn.textContent = 'STOP'
-
-      // when time is up, display the following text according to the visibility of timer
-      // const displayW = getComputedStyle(timerW).display
-      // displayW === 'flex' ? guide.textContent = "Good work! Let's stop and take a break!" : guide.textContent = "Time is up! Let's get productive!"
-      // btnTimerToggle.classList.add('hidden')
-
-      // flash the timer when time is up
-      const toFlash = document.querySelector(`#c${index + 1}`)
-      flashID = setInterval(() => {
-        toFlash.style.opacity = (toFlash.style.opacity === "1") ? "0" : "1" 
-      }, 800);
-    }
-  }, 1000);
-}
-
-//index = of the selected start/reset buttons; (index + 1) locates the id of the target element(#c1, #c2, #r1, #r2...)
-//switchBoolean: true/false; decide if switching the displaying timer
-function reset(index, switchBoolean) {
-  if (timerID) clearInterval(timerID)
-  if (flashID) {
-    document.querySelector(`#c${index + 1}`).style.opacity = '1'
-    clearInterval(flashID)
-  }
-  if (switchBoolean === true) {
-    switchTimerVisibility()
-  }
-  
-  const displayW = getComputedStyle(timerW).display
-  // btnTimerToggle.classList.remove('hidden')
-  
-  modifyHTML(`#s${index + 1}`, 'START')
-  timeUpAlarm.currentTime = 0
-  timeUpAlarm.pause()
-  const [min, sec] = selectContainer(index)
-  if (index === 0) {
-    [min.textContent, sec.textContent] = [timerRecord[0], timerRecord[1]]
-  } else {
-    [min.textContent, sec.textContent] = [timerRecord[2], timerRecord[3]]
-  }
-}
-
-function btnEffect(btn) {
-  btn.animate(
-    [
-      {transform: "scale(0.8)"},
-      {transform: "scale(1)"},
-    ],
-    {
-      duration: 100,
-      iterations: 1,
-    }
-  )
-}
-
 //display a quote
 // const quote = document.querySelector('.quote')
 // const author = document.querySelector('.author')
@@ -148,7 +38,6 @@ function updateTotalProductive(arr) {
   displayTotalMin.textContent = totalProductiveMin
 }
 // updateTotalProductive(timerRecord)
-
 
 const workTimer = document.querySelectorAll('.countdown div')
 // vv get the min and sec of alarms and store them to the timerRecord array
@@ -286,24 +175,6 @@ const timerW = document.querySelector('.workTimer')
 const timerR = document.querySelector('.relaxTimer')
 const timeUpAlarm = new Audio('./lib/ambient-piano-music-1.wav')
 
-//check which timer is displaying and switch visibility
-function switchTimerVisibility() {
-  const displayW = getComputedStyle(timerW).display
-  if (displayW === 'flex') {
-    timerW.style.display = 'none'
-    timerR.style.display = 'flex'
-    return 2
-    // console.log("switched to relax timer")
-  } else {
-    timerW.style.display = 'flex'
-    timerR.style.display = 'none'
-    document.querySelector('.switch-timer-btn').style.display = 'flex'
-    document.querySelector('.timer-toggle-container').style.display = 'flex'
-    return 1
-    // console.log("switched to work timer")
-  }
-}
-
 //start,pause,stop - button event listener
 mainBtns.forEach((btn, index) => {
   btn.addEventListener('click', () => {
@@ -374,15 +245,15 @@ resetBtns.forEach((btn, index) => {
 //   }
 // })
 
-
-//To do list
+//TO DO LIST
 let toDoItems
 if (localStorage.getItem('data')) {
   toDoItems = JSON.parse(localStorage.getItem('data'))
 } else {
   toDoItems = [{
+      id: 1,
       task: 'Study Javascript',
-      isFinished: false,
+      isCompleted: false,
     }
   ]
 }
@@ -395,7 +266,8 @@ function getTodoInput(element, arrayToUpdate) {
   const trimInput = element.value.trim()
   if (!trimInput) return
 
-  arrayToUpdate.push({task: trimInput, isFinished: false})
+  arrayToUpdate.push({id: arrayToUpdate.length + 1, task: trimInput, isCompleted: false})
+  console.log(toDoItems)
   renderToDo()
   element.value = ''
   element.focus()
@@ -438,38 +310,12 @@ function renderToDo() {
     `
   }).join('')
 
-  // old task check off logic
-  // const itemToRender = toDoItems.map((item, index) => {
-  //   return `
-  //     <li id=item${index + 1}>
-  //       <div id=checkbox${index + 1}
-  //       >
-  //         <img 
-  //           src=${item.isFinished ? checkedBox : uncheckedBox}  class=todo-checkbox
-  //           data-id=${index + 1}
-  //         ></img>
-  //         <span data-id=${index + 1}>${item.task}</span>
-  //       </div>
-  //       <div class='todolist-btncontainer'>
-  //         <button 
-  //           data-id=${index + 1} 
-  //           class="editBtn"
-  //         ></button>
-  //         <button 
-  //           data-id=${index + 1} 
-  //           class="deleteBtn"
-  //         ></button>
-  //       </div>
-  //     </li>
-  //   `
-  // }).join('')
   displayList.innerHTML = itemToRender
-
   saveData()
 }
 renderToDo()
 
-//task check off event
+//TASK CHECK OFF EVENT
 const checkbox = document.querySelector('.todo-checkbox-container')
 //play a sound if a task is checked off
 const rewardSound = new Audio('./lib/task-finished.mp3')
@@ -479,16 +325,19 @@ toDoList.addEventListener('click', (e) => {
   if (e.target && e.target.nodeName === 'SPAN' ) {
     // if list item is currently not being edited
     if (e.target.contentEditable === 'false' || e.target.contentEditable === 'inherit') {
+      const currentID = e.target.dataset.id
       const currentItem = document.querySelector(`#item${e.target.dataset.id} span`)
       btnEffect(currentItem)
-
+      console.log(currentID)
+      
       const checkStatus = currentItem.classList
       if (!checkStatus.contains('checked')) {
         rewardSound.currentTime = 0
         rewardSound.play()
-
+        
         // move the finished task to the bottom
       }
+      toDoItems[currentID - 1].isCompleted = !toDoItems[currentID - 1].isCompleted
       checkStatus.toggle('checked')
     }
   }
@@ -498,11 +347,10 @@ toDoList.addEventListener('click', (e) => {
 toDoList.addEventListener('click', (e) => {
   const {tagName, dataset, classList} = e.target
   // console.log(e.target.classList)
+  console.log(e.target)
   if (tagName === 'BUTTON' && 
     classList.contains('deleteBtn')) {
-    const itemID = document.getElementById(`item${dataset.id}`)
-    toDoItems.splice(dataset.id - 1, 1)
-    renderToDo()
+    deleteTask(dataset.id - 1, toDoItems)
   }
   if (tagName === 'BUTTON' && 
     classList.contains('editBtn')) {
@@ -512,6 +360,16 @@ toDoList.addEventListener('click', (e) => {
     highlightText(itemID)
   }
 })
+
+// 
+function deleteTask(itemIndex, arr) {
+  arr.splice(itemIndex, 1)
+  // rearrange task id
+  arr.forEach((item, index) => {
+    item.id = index + 1
+  })
+  renderToDo()
+}
 
 // when the span lose focus(finish editing), disable contentEditable 
 // blur event does not bubble, used capture: true
@@ -535,9 +393,165 @@ function updateToDoArray(element) {
   element.contentEditable = 'false'
 }
 
+// SIDE MENU
 const sideMenuBtn = document.querySelector('.side-menu-btn')
 const sideMenu = document.querySelector('.side-menu')
 sideMenuBtn.addEventListener('click', function() {
   sideMenu.classList.toggle('activeMenu')
   sideMenuBtn.classList.toggle('activeBtn')
 })
+let completedTasks = []
+document.getElementById('clearCompleted').addEventListener('click', () => {
+  toDoItems.forEach(item => {
+    if (item.isCompleted === true) {
+      const {id, task, isCompleted} = item
+      completedTasks.push(
+        {
+          id: completedTasks.length + 1,
+          task: task,
+          isCompleted: isCompleted
+        }
+      )
+      deleteTask(id - 1, toDoItems)
+      // console.log(toDoItems, completedTasks)
+    }
+  })
+})
+document.getElementById('clearAll').addEventListener('click', () => {
+  toDoItems.length = 0
+  renderToDo()
+  // console.log(toDoItems)
+})
+document.getElementById('showStats').addEventListener('click', () => {
+  
+})
+
+
+// ============FUNCTIONS==============
+function highlightText(element) {
+  const range = document.createRange()
+  //select all the content inside the element vv
+  range.selectNodeContents(element)
+  const selection = window.getSelection()
+  // remove existing selections
+  selection.removeAllRanges()
+  selection.addRange(range)
+}
+
+//check which timer is displaying and switch visibility
+function switchTimerVisibility() {
+  const displayW = getComputedStyle(timerW).display
+  if (displayW === 'flex') {
+    timerW.style.display = 'none'
+    timerR.style.display = 'flex'
+    return 2
+    // console.log("switched to relax timer")
+  } else {
+    timerW.style.display = 'flex'
+    timerR.style.display = 'none'
+    document.querySelector('.switch-timer-btn').style.display = 'flex'
+    document.querySelector('.timer-toggle-container').style.display = 'flex'
+    return 1
+    // console.log("switched to work timer")
+  }
+}
+
+// number: 1 to the next section, -1 to the previous
+function switchEnterSection(nodeList, index, number) {
+  const whereTo = nodeList[index + number]
+  whereTo.contentEditable = 'true'
+  whereTo.focus()
+  highlightText(whereTo)
+}
+
+//quickly select the displayed counting number
+function selectContainer(containerIndex) {
+  const displayMin = document.querySelector(`#c${containerIndex + 1} .min`)
+  const displaySec = document.querySelector(`#c${containerIndex + 1} .sec`)
+  return [displayMin, displaySec]
+}
+
+//quickly change the textContent of a selected element
+function modifyHTML(eleSelector, text) {
+  document.querySelector(eleSelector).textContent = String(text)
+}
+
+// pass the btn and the timer indices to this function and start counting
+// btn: array of the big round MAIN buttons(queryselectAll)
+// index: either 0 or 1
+function tick(btn, index) {
+  btn.textContent = 'PAUSE'
+  // console.log(btn, btn.textContent)
+  const displayMin = document.querySelector(`#c${index + 1} .min`)
+  const displaySec = document.querySelector(`#c${index + 1} .sec`)
+
+  //reference: timerRecord = ['25', '01', '05', '01']
+  // current timestamp + timer convert to ms = alarm timestamp
+  const getTime = (Number(timerRecord[index * 2]) * 60 + Number(timerRecord[index * 2 + 1])) * 1000
+  const end = Date.now() + getTime
+  timerID = setInterval(() => {
+    //sometimes timestamp we get from Date.now() can be larger than the actual time due to lagging from cpu, browser, etc..., causing the result being negative. use math.max to avoid it
+    const remainSec = Math.max(0, Math.round((end - Date.now()) / 1000))
+    const newMin = String(Math.floor(remainSec / 60)).padStart(2, '0')
+    const newSec = String(remainSec % 60).padStart(2, '0')
+    displayMin.textContent = newMin
+    displaySec.textContent = newSec
+    
+    if (remainSec === 0) {
+      timeUpAlarm.play()
+      clearInterval(timerID)
+      isPause = true
+      btn.textContent = 'STOP'
+
+      // when time is up, display the following text according to the visibility of timer
+      // const displayW = getComputedStyle(timerW).display
+      // displayW === 'flex' ? guide.textContent = "Good work! Let's stop and take a break!" : guide.textContent = "Time is up! Let's get productive!"
+      // btnTimerToggle.classList.add('hidden')
+
+      // flash the timer when time is up
+      const toFlash = document.querySelector(`#c${index + 1}`)
+      flashID = setInterval(() => {
+        toFlash.style.opacity = (toFlash.style.opacity === "1") ? "0" : "1" 
+      }, 800);
+    }
+  }, 1000);
+}
+
+//index = of the selected start/reset buttons; (index + 1) locates the id of the target element(#c1, #c2, #r1, #r2...)
+//switchBoolean: true/false; decide if switching the displaying timer
+function reset(index, switchBoolean) {
+  if (timerID) clearInterval(timerID)
+  if (flashID) {
+    document.querySelector(`#c${index + 1}`).style.opacity = '1'
+    clearInterval(flashID)
+  }
+  if (switchBoolean === true) {
+    switchTimerVisibility()
+  }
+  
+  const displayW = getComputedStyle(timerW).display
+  // btnTimerToggle.classList.remove('hidden')
+  
+  modifyHTML(`#s${index + 1}`, 'START')
+  timeUpAlarm.currentTime = 0
+  timeUpAlarm.pause()
+  const [min, sec] = selectContainer(index)
+  if (index === 0) {
+    [min.textContent, sec.textContent] = [timerRecord[0], timerRecord[1]]
+  } else {
+    [min.textContent, sec.textContent] = [timerRecord[2], timerRecord[3]]
+  }
+}
+
+function btnEffect(btn) {
+  btn.animate(
+    [
+      {transform: "scale(0.8)"},
+      {transform: "scale(1)"},
+    ],
+    {
+      duration: 100,
+      iterations: 1,
+    }
+  )
+}

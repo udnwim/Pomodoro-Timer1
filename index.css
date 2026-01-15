@@ -207,6 +207,7 @@ span[contenteditable='true'] {
   display: flex;
   align-items: center;
   margin: 5px;
+  user-select: none;
 }
 
 .total-productive-time-wrapper .logoContainer img {
@@ -215,7 +216,7 @@ span[contenteditable='true'] {
   height: 43px;
 }
 
-.total-productive-time-wrapper .logoContainer span {
+.total-productive-time-wrapper .logoContainer h1 {
   font-weight: 600;
   font-size: 1.2rem;
   color: white;
@@ -262,6 +263,7 @@ span[contenteditable='true'] {
 
 .timer-toggle-container span {
   font-size: 1.2rem;
+  user-select: none;
 }
 
 .timer-toggle-container .switch-timer-btn {
@@ -298,6 +300,7 @@ span[contenteditable='true'] {
   margin: 0 auto;
   text-align: center;
   font-weight: 750;
+  user-select: none;
 }
 .to-do-list {
   display: flex;
