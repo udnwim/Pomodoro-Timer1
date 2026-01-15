@@ -537,7 +537,7 @@ function updateToDoArray(element) {
 
 const sideMenuBtn = document.querySelector('.side-menu-btn')
 const sideMenu = document.querySelector('.side-menu')
-// console.log(sideMenu)
-sideMenuBtn.addEventListener('click', () => {
-  sideMenu.classList.toggle('active')
+sideMenuBtn.addEventListener('click', function() {
+  sideMenu.classList.toggle('activeMenu')
+  sideMenuBtn.classList.toggle('activeBtn')
 })

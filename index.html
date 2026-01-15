@@ -10,22 +10,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
-<body class="light">
-  <!-- <div class="switchWrapper light">
-    <span class="slider"></span>
-  </div> -->
-  
-  <!-- side menu -->
-  <div class="side-menu">
-  </div>
-  
+<body>
   <!-- top banner -->
   <div class="total-productive-time-wrapper">
     <div class="logoContainer">
       <img src="./lib/tomato1.png" alt="tomato-logo">
       <span>Pomodoro Timer</span>
     </div>
+    <!-- side menu -->
     <button class="side-menu-btn"></button>
+    <div class="side-menu">
+      <ul>
+        <li>Clear Completed</li>
+        <li>Clear All Tasks</li>
+        <li>Show Statistics</li>
+      </ul>
+    </div>
+
     <!-- <div>You've worked for: <span class="total-hour">00</span> hr <span class="total-min">00</span> min</div> -->
     <!-- <button>Reset</button> -->
   </div>
@@ -60,7 +61,7 @@
       </div> -->
 
       <!-- pink timer: work -->
-      <div class="workTimer light">
+      <div class="workTimer">
         <!-- c1:count; s1:start; r1:reset -->
         <div class="countdown" id="c1">
           <div class="min">25</div>
@@ -73,7 +74,7 @@
         </div>
       </div>
       <!-- green timer: break -->
-      <div class="relaxTimer light" style="display:none">
+      <div class="relaxTimer" style="display:none">
         <div class="countdown" id="c2">
           <div class="min">05</div>
           <span>:</span>
