@@ -32,8 +32,8 @@ function updateTotalProductive(arr) {
   totalProductiveHr = String(totalProductiveHr).length < 2 ? `0${totalProductiveHr}` : totalProductiveHr
   totalProductiveMin = String(totalProductiveMin).length < 2 ? `0${totalProductiveMin}` : totalProductiveMin
 
-  const displayTotalHr = document.querySelector('.total-productive-time-wrapper .total-hour')
-  const displayTotalMin = document.querySelector('.total-productive-time-wrapper .total-min')
+  const displayTotalHr = document.querySelector('.app-header .total-hour')
+  const displayTotalMin = document.querySelector('.app-header .total-min')
   displayTotalHr.textContent = totalProductiveHr
   displayTotalMin.textContent = totalProductiveMin
 }
@@ -237,9 +237,9 @@ resetBtns.forEach((btn, index) => {
 })
 
 //reset button (accumulated study time)
-// const resetBtnTotal = document.querySelector('.total-productive-time-wrapper button')
+// const resetBtnTotal = document.querySelector('.app-header button')
 // resetBtnTotal.addEventListener('click', () => {
-//   const totalTime = document.querySelectorAll('.total-productive-time-wrapper span')
+//   const totalTime = document.querySelectorAll('.app-header span')
 //   for (let i = 0; i < totalTime.length; i++) {
 //     totalTime[i].textContent = '00'
 //   }
@@ -418,14 +418,24 @@ document.getElementById('clearCompleted').addEventListener('click', () => {
   })
 })
 document.getElementById('clearAll').addEventListener('click', () => {
+  // confirmation dialog
+
   toDoItems.length = 0
   renderToDo()
   // console.log(toDoItems)
 })
 document.getElementById('showStats').addEventListener('click', () => {
-  
+  //completed tasks: total number, what had been done
+  //total time of working (only when time is up and "STOP" is displayed? clicked?)
+  // number of skipping?
 })
+// About: import a doc of researches explaining pomodoro timer
+// log in/register?
+// setting:
+//   layout checkbox: display a quote/option to skip
+//   color theme?
 
+// Drag and drop to adjust tasks
 
 // ============FUNCTIONS==============
 function highlightText(element) {

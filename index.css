@@ -33,7 +33,7 @@
 body {
   display: flex;
   flex-direction: column;
-  margin-top: var(--marginTop);
+  padding-top: var(--marginTop);
   width: 100%;
 
   font-family: "Rubik", sans-serif;
@@ -65,12 +65,9 @@ button:hover {
   background-color: #f5f5f5;
 }
 input {
-  padding-left: 8px;
-  height: 45px;
   border: none;
   border-radius: 5px;
   font-size: 1rem;
-  text-indent: 2px;
 }
 span[contenteditable='true'] {
   display: inline-block;
@@ -88,24 +85,37 @@ span[contenteditable='true'] {
   visibility: hidden;
 }
 
+.side-menu-container {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  width: 45px;
+  height: 45px;
+}
 .side-menu {
-  position: fixed;
-  top: 4px;
-  right: 8px;
+  position: absolute;
+  top: 0;
+  right: 0;
   padding: 12px 16px;
-  width: 0;
-  height: 0;
+  width: auto;
+  height: auto;
 
-  z-index: 1000;
+  /* z-index: 1000; */
   border-radius: 10px;
   background-color: white;
-  opacity: 0;
   overflow: hidden;
-
+  
+  opacity: 0;
+  transform-origin: top right;
+  transform: scale(0);
   transition: 
-    height 0.2s ease-in-out,
-    width 0.2s ease-in-out,
-    opacity 0.2s ease-in-out;
+  transform 0.2s ease-in-out,
+  opacity 0.2s ease-in-out;
+}
+/* display side menu */
+.activeMenu {
+  opacity: 100;
+  transform: scale(1);
 }
 .side-menu ul {
   font-weight: 600;
@@ -125,9 +135,9 @@ span[contenteditable='true'] {
   background-color: #f5f5f5;
 }
 .side-menu-btn {
-  position: fixed;
-  top: 4px;
-  right: 8px;
+  /* position: fixed; */
+  /* top: 4px; */
+  /* right: 8px; */
   width: 45px;
   height: 45px;
 
@@ -143,12 +153,6 @@ span[contenteditable='true'] {
   height: 25px;
   background-image: url('./lib/menu.png');
 }
-/* display side menu */
-.activeMenu {
-  min-width: 190px;
-  height: auto;
-  opacity: 100;
-}
 .side-menu-btn.activeBtn::before {
   background-image: url('./lib/cross-button.png');
 }
@@ -156,18 +160,16 @@ span[contenteditable='true'] {
 .mainArea {
   display: flex;
   flex-direction: column;
-  column-gap: 5rem;
-  row-gap: 3rem;
+  gap: 2rem;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  margin: 20px auto;
+  margin: 20px 0;
 }
 
 .timerWrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* max-width: 400px;
+  max-height: 400px; */
 }
 
 .quoteContainer {
@@ -188,12 +190,13 @@ span[contenteditable='true'] {
   /* max-width: 100%; */
 }
 
-.total-productive-time-wrapper {
+.app-header {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   position: fixed;
   top: 0;
+  padding: 0 8px;
   width: 100%;
   height: 53px;
   z-index: 1000;
@@ -203,20 +206,20 @@ span[contenteditable='true'] {
   font-size: 1.1rem;
 }
 
-.total-productive-time-wrapper .logoContainer {
+.app-header .logoContainer {
   display: flex;
   align-items: center;
-  margin: 5px;
+  gap: 5px;
   user-select: none;
 }
 
-.total-productive-time-wrapper .logoContainer img {
-  margin: 0 10px;
+.app-logo {
+  margin-right: 10px;
   width: 43px;
   height: 43px;
 }
 
-.total-productive-time-wrapper .logoContainer h1 {
+.app-title {
   font-weight: 600;
   font-size: 1.2rem;
   color: white;
@@ -275,19 +278,17 @@ span[contenteditable='true'] {
 
 .timer-toggle-container input {
   margin: 0 5px;
-  padding: 0;
-  padding-left: 4px;
   height: 30px;
   width: 30px;
 
-  /* text-align: center; */
+  text-align: center;
   color: var(--tomato);
 }
 
 .to-do-list-container {
   margin: 0 12px;
   padding: 10px 15px;
-  width: 320px;
+  max-width: 400px;
   max-height: 400px;
 
   border: 2px dashed var(--tomato);
@@ -308,7 +309,7 @@ span[contenteditable='true'] {
   margin: 0;
   padding: 10px 0;
 
-  max-height: 255px;
+  max-height: 195px;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -367,7 +368,8 @@ span[contenteditable='true'] {
 .todolist-btncontainer {
   display: flex;
   column-gap: 8px;
-  margin-left: 8px;
+  padding-right: 12px;
+  /* margin-left: 8px; */
 }
 .todolist-btncontainer button {
   width: 44px;
@@ -391,12 +393,16 @@ span[contenteditable='true'] {
   margin-top: 20px;
   margin-bottom: 10px;
 }
-.to-do-enter-field input{
-  min-width: 75%;
+#to-do-input{
+  padding-left: 8px;
+  height: 45px;
+  /* max-width: 75%; */
+
+  text-indent: 2px;
 }
 .to-do-enter-field button {
   margin-left: 10px;
-  height: 45px;
+  max-height: 45px;
   width: 25%;
 }
 
@@ -408,7 +414,8 @@ span[contenteditable='true'] {
   align-items: center;
   /* margin: 20px; */
   padding: 30px;
-  width: 270px;
+  width: 100%;
+  height: 100%;
 
   font-size: 4.5rem;
   border-radius: 10px;
@@ -473,20 +480,51 @@ footer {
 }
 
 /* responsive */
-@media (min-width: 320px) {
-  .to-do-list-container {
-    width: 400px;
+@media (max-width: 480px) {
+  .app-title {
+    font-size: 1rem;
+  }
+  .app-logo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .timer-toggle-container span {
+    font-size: 1rem;
+  }
+
+  .workTimer, 
+  .relaxTimer {
+    /* width: 300px; */
+    font-size: 3.5rem;
+    padding: 20px;
+  }
+
+  .to-do-list-container > h2 {
+    /* width: 400px; */
+    font-size: 1.2rem;
+  }
+
+  .to-do-list li {
+    font-size: 1rem;
+  }
+
+  #to-do-input{
+    padding-left: 4px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+
+  .todolist-btncontainer {
+    display: none;
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 839px) {
   .mainArea {
     flex-direction: row;
   }
-  .workTimer, 
-  .relaxTimer {
-    width: 300px;
-  }
+
   /* .to-do-list-container {
     width: 400px;
   } */

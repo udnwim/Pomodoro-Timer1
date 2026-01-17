@@ -11,20 +11,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- top banner -->
-  <div class="total-productive-time-wrapper">
+  <!-- header -->
+  <div class="app-header">
     <div class="logoContainer">
-      <img src="./lib/tomato1.png" alt="tomato-logo">
-      <h1>Pomodoro Timer</h1>
+      <img class='app-logo' src="./lib/tomato1.png" alt="tomato-logo">
+      <h1 class="app-title">Pomodoro Timer</h1>
     </div>
-    <!-- side menu -->
-    <button class="side-menu-btn"></button>
-    <div class="side-menu">
-      <ul>
-        <li id="clearCompleted">Clear Completed</li>
-        <li id="clearAll">Clear All Tasks</li>
-        <li id="showStats">Show Statistics</li>
-      </ul>
+    <div class="side-menu-container">
+      <button class="side-menu-btn"></button>
+      <div class="side-menu">
+        <ul>
+          <li id="clearCompleted">Clear Completed</li>
+          <li id="clearAll">Clear All Tasks</li>
+          <li id="showStats">Show Statistics</li>
+        </ul>
+      </div>
     </div>
 
     <!-- <div>You've worked for: <span class="total-hour">00</span> hr <span class="total-min">00</span> min</div> -->
@@ -98,6 +99,8 @@
     </div>
 
   </div>
+
+  <!-- footer -->
   <footer>
     <p>&copy; 2025-2026 Hui K. All rights reserved.</p>
   </footer>
