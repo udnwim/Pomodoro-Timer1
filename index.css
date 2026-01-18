@@ -192,7 +192,7 @@ span[contenteditable='true'] {
 
 .app-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   position: fixed;
   top: 0;
@@ -208,13 +208,14 @@ span[contenteditable='true'] {
 
 .app-header .logoContainer {
   display: flex;
+  justify-content: flex-start;
   align-items: center;
-  gap: 5px;
+  flex: 1;
   user-select: none;
 }
 
 .app-logo {
-  margin-right: 10px;
+  margin-right: 8px;
   width: 43px;
   height: 43px;
 }
@@ -389,9 +390,9 @@ span[contenteditable='true'] {
 }
 .to-do-enter-field {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  margin: 10px;
+  gap: 10px;
 }
 #to-do-input{
   padding-left: 8px;
@@ -401,7 +402,8 @@ span[contenteditable='true'] {
   text-indent: 2px;
 }
 .to-do-enter-field button {
-  margin-left: 10px;
+  /* margin-left: 10px; */
+  padding: 0 8px;
   max-height: 45px;
   width: 25%;
 }
@@ -528,4 +530,12 @@ footer {
   /* .to-do-list-container {
     width: 400px;
   } */
+}
+
+.test {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 20%;
+  background-color: pink;
 }
