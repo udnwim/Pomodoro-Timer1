@@ -168,7 +168,10 @@ span[contenteditable='true'] {
 }
 
 .timerWrapper {
+  display: flex;
+  align-items: center;
   min-width: 160px;
+  width: 40%;
 }
 
 .quoteContainer {
@@ -288,7 +291,8 @@ span[contenteditable='true'] {
 .to-do-list-container {
   margin: 0 12px;
   padding: 10px 15px;
-  /* max-width: 50%; */
+  padding-top: 0;
+  /* max-width: 275px; */
   max-height: 400px;
 
   border: 2px dashed var(--tomato);
@@ -526,11 +530,21 @@ footer {
     flex-direction: row;
   }
   .timerWrapper {
-    /* width: 30%; */
+    width: 30%;
   }
-  /* .to-do-list-container {
-    width: 400px;
-  } */
+  .to-do-list-container {
+    width: 40%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .timerWrapper {
+    width: 20%;
+  }
+  .to-do-list-container {
+    margin-left: 50px;
+    width: 30%;
+  }
 }
 
 .test {
