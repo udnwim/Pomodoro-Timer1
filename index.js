@@ -496,7 +496,7 @@ function tick(btn, index) {
   const displaySec = document.querySelector(`#c${index + 1} .sec`)
 
   //reference: timerRecord = ['25', '01', '05', '01']
-  // current timestamp + timer convert to ms = alarm timestamp
+  // timestamp[now] + timer in ms = alarm timestamp
   const getTime = (Number(timerRecord[index * 2]) * 60 + Number(timerRecord[index * 2 + 1])) * 1000
   const end = Date.now() + getTime
   timerID = setInterval(() => {
