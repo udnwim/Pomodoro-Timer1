@@ -262,6 +262,14 @@ const todoInput = document.querySelector('#to-do-input')
 const todoBtn = document.querySelector('.to-do-enter-field button')
 const toDoList = document.querySelector('.to-do-list')
 
+// draggable to-do-list
+new Sortable(toDoList, {
+  animation: 150,
+})
+toDoList.addEventListener('dragover', () => {
+  console.log(1)
+})
+
 function getTodoInput(element, arrayToUpdate) {
   const trimInput = element.value.trim()
   if (!trimInput) return
@@ -294,7 +302,7 @@ function renderToDo() {
   const displayList = document.querySelector('.to-do-list')
   const itemToRender = toDoItems.map((item, index) => {
     return `
-      <li id='item${index + 1}'>
+      <li id='item${index + 1}' draggable='true'>
         <span data-id='${index + 1}'>${item.task}</span>
         <div class='todolist-btncontainer'>
           <button 
@@ -425,6 +433,12 @@ document.getElementById('clearAll').addEventListener('click', () => {
   // console.log(toDoItems)
 })
 document.getElementById('showStats').addEventListener('click', () => {
+  Swal.fire({
+    title: 'Error',
+    text: 'No data available',
+    icon: 'error',
+    confirmButtonColor: "#F08787",
+  })
   //completed tasks: total number, what had been done
   //total time of working (only when time is up and "STOP" is displayed? clicked?)
   // number of skipping?
